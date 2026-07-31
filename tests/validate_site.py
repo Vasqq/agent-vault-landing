@@ -27,7 +27,7 @@ REQUIRED_PHRASES = [
     "EIP-1271",
     "EIP-3009",
     "prompt injection",
-    "video coming soon",
+    "Watch the demo",
     "Flare Summer Signal",
 ]
 
@@ -104,8 +104,8 @@ def main() -> int:
         if meta not in html:
             errors.append(f"missing required meta tag fragment: {meta}")
 
-    if 'href="#demo"' not in html:
-        errors.append("demo CTA must target #demo")
+    if "https://x.com/agentvault_flr/status/2083192963287372177" not in html:
+        errors.append("demo CTA must link to the live X demo post")
 
     if re.search(r"payment key", html, re.IGNORECASE) and "payment-signing" not in html:
         errors.append("hero should use private key language, not bare payment key")

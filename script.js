@@ -13,18 +13,6 @@
     });
   }
 
-  document.getElementById("demo-cta").addEventListener("click", function (event) {
-    var target = document.getElementById("demo");
-    if (!target) {
-      return;
-    }
-    event.preventDefault();
-    target.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
-    if (history.replaceState) {
-      history.replaceState(null, "", "#demo");
-    }
-  });
-
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", revealRows);
   } else {
