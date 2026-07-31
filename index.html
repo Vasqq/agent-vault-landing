@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AgentVault — budget, not a private key</title>
+  <meta name="description" content="Your AI agent gets a budget, not a private key. Autonomous x402 on Flare with private policy and Owner-controlled funds.">
+  <meta property="og:title" content="AgentVault — budget, not a private key">
+  <meta property="og:description" content="AgentVault is the spending-authority layer for standard x402 on Flare. Agents pay autonomously from your Vault, without the private key ever entering the agent runtime.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vasqq.github.io/agent-vault-landing/">
+  <meta property="og:image" content="https://vasqq.github.io/agent-vault-landing/assets/images/social-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AgentVault — budget, not a private key">
+  <meta name="twitter:description" content="AgentVault is the spending-authority layer for standard x402 on Flare. Agents pay autonomously from your Vault, without the private key ever entering the agent runtime.">
+  <meta name="twitter:image" content="https://vasqq.github.io/agent-vault-landing/assets/images/social-card.png">
+  <link rel="stylesheet" href="assets/fonts/fonts.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="wordmark" href="#" aria-label="AgentVault">
+        <img src="assets/images/agentvault-wordmark.png" alt="AgentVault" width="945" height="106">
+      </a>
+      <nav aria-label="Primary">
+        <a href="#mechanism">Mechanism</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Flare Summer Signal · Flare Confidential Compute Track</p>
+          <h1 id="hero-title">
+            <span class="hero-main">Your AI agent gets a budget,</span>
+            <span class="hero-kicker">not a private key.</span>
+          </h1>
+          <p class="lede">
+            AgentVault is the spending-authority layer for standard x402 on Flare.
+            Agents pay autonomously from your Vault, without the private key ever entering the agent runtime.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#demo" id="demo-cta">video coming soon</a>
+          </div>
+          <ul class="hero-chips" aria-label="Positioning">
+            <li>Private</li>
+            <li>Verifiable</li>
+            <li>Non-custodial</li>
+          </ul>
+        </div>
+
+        <div class="hero-receipt">
+          <aside class="receipt-card receipt-card--compact" aria-labelledby="receipt-title">
+            <div class="receipt-header">
+              <p class="receipt-label" id="receipt-title">Authorization receipt</p>
+              <p class="receipt-mode">USDT0</p>
+            </div>
+            <dl class="receipt-meta receipt-meta--compact">
+              <div class="receipt-meta-item receipt-meta-item--start"><dt>Vendor allowlist</dt><dd class="receipt-meta-value--text">x402-api</dd></div>
+              <div class="receipt-meta-item receipt-meta-item--center"><dt>Max / payment</dt><dd>0.15</dd></div>
+              <div class="receipt-meta-item receipt-meta-item--end"><dt>Budget window</dt><dd>0.35</dd></div>
+            </dl>
+            <ol class="receipt-rows" id="receipt-rows">
+              <li class="row row-settled" data-delay="0">
+                <span class="row-num">01</span>
+                <span class="row-endpoint">/api/premium-data</span>
+                <span class="row-amount">0.10</span>
+                <span class="row-status">settled</span>
+              </li>
+              <li class="row row-settled" data-delay="1">
+                <span class="row-num">02</span>
+                <span class="row-endpoint">/api/premium-data</span>
+                <span class="row-amount">0.10</span>
+                <span class="row-status">settled</span>
+              </li>
+              <li class="row row-settled" data-delay="2">
+                <span class="row-num">03</span>
+                <span class="row-endpoint">/api/premium-data</span>
+                <span class="row-amount">0.10</span>
+                <span class="row-status">settled</span>
+              </li>
+              <li class="row row-declined" data-delay="3">
+                <span class="row-num">04</span>
+                <span class="row-endpoint">/api/premium-data</span>
+                <span class="row-amount">0.10</span>
+                <span class="row-status">declined</span>
+              </li>
+            </ol>
+          </aside>
+          <p class="receipt-caption">
+            Three 0.10 payments settled; the 4th was declined when cumulative spend reached 0.40, above the 0.35 budget window.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="problem" aria-labelledby="problem-title">
+      <div class="wrap narrow">
+        <h2 id="problem-title">The layer x402 doesn't define</h2>
+        <p class="body-lead">
+          A funded private key in an LLM runtime turns prompt injection, tool misuse, loops, and replay into financial risk.
+          Public on-chain allowances work, but the budget is readable by the agent and anyone watching the chain.
+        </p>
+        <p>
+          Agentic wallets isolate keys and set session caps. Scoped control planes grant revocable access to wallets you already use.
+          They still leave spending authority close to the agent runtime, and policy enforcement in infrastructure you cannot independently verify on-chain.
+        </p>
+        <p>
+          <a href="https://docs.x402.org/introduction" rel="noopener noreferrer">x402</a>
+          standardizes how an API requests and settles a payment.
+          It does not decide where the Agent's spending authority lives, who enforces the rules, or whether those rules stay private.
+        </p>
+        <p>
+          AgentVault gives agents bounded spending authority over standard x402 APIs: private policy, Owner-controlled USDT0, and on-chain verification through an
+          <a href="https://eips.ethereum.org/EIPS/eip-1271" rel="noopener noreferrer">EIP-1271</a>
+          Vault. No agent wallet custody. No public budget on-chain. No trust in an opaque backend policy engine.
+          Without putting the Vault's payment-signing key inside the agent runtime, every payment passes a registered
+          <a href="https://dev.flare.network/fcc/overview" rel="noopener noreferrer">Flare FCC</a>
+          check and a Vault signature check before it settles.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-panel" id="mechanism" aria-labelledby="mechanism-title">
+      <div class="wrap">
+        <h2 id="mechanism-title">How AgentVault works</h2>
+        <ol class="flow">
+          <li>
+            <h3>Owner funds the Vault</h3>
+            <p>Deposit mock USDT0 into a non-custodial Vault that pays via <a href="https://eips.ethereum.org/EIPS/eip-1271" rel="noopener noreferrer">EIP-1271</a> contract signature verification.</p>
+          </li>
+          <li>
+            <h3>Owner sets four private rules</h3>
+            <p>Max per payment, max spend per hour, vendor allowlist, and max payments per hour. Policy is encrypted to the registered machine key.</p>
+          </li>
+          <li>
+            <h3>Agent requests, never signs</h3>
+            <p>The Agent holds a revocable credential, not the private key, and never signs the payment itself.</p>
+          </li>
+          <li>
+            <h3>FCC evaluates privately</h3>
+            <p>A registered <a href="https://dev.flare.network/fcc/overview" rel="noopener noreferrer">Flare Confidential Compute</a> machine checks every request and signs an exact <a href="https://eips.ethereum.org/EIPS/eip-3009" rel="noopener noreferrer">EIP-3009</a> authorization only when every rule passes.</p>
+          </li>
+          <li>
+            <h3>Vault verifies, then x402 settles</h3>
+            <p>The Vault independently checks the pinned signer, exact recipient, and amount before standard x402 settlement.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="demo" aria-labelledby="demo-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="demo-title">What is proven on Coston2</h2>
+          <p class="section-sub">Coston2 testnet</p>
+        </div>
+        <div class="proof-grid">
+          <article class="proof-stat">
+            <p class="proof-value">3 SETTLED</p>
+            <p class="proof-label">payments settled at 0.10 USDT0</p>
+          </article>
+          <article class="proof-stat proof-stat-decline">
+            <p class="proof-value">4th DECLINED</p>
+            <p class="proof-label">0.40 spent exceeded 0.35 budget window</p>
+          </article>
+          <article class="proof-stat">
+            <p class="proof-value">0.70 WITHDRAWN</p>
+            <p class="proof-label">withdrawn after Owner pause</p>
+          </article>
+        </div>
+        <p class="proof-copy">
+          The Agent ran the full x402 HTTP arc:
+          <code>402 → X-PAYMENT → 200 + data</code>.<br>
+          Three payments settled. The fourth was blocked by private policy before settlement.
+          The Owner paused and withdrew the remainder.
+        </p>
+        <div class="proof-links">
+          <a href="https://coston2-explorer.flare.network/address/0x5A2eb4224224aBfF6D47f4369801e6f5fb828c1C" rel="noopener noreferrer">Vault on explorer</a>
+          <a href="https://coston2-explorer.flare.network/address/0x9b9B04c0743F83DAedf48A537b62f6D6E8777Be8" rel="noopener noreferrer">USDT0 token</a>
+          <a href="https://coston2-systems-explorer.flare.network/tee" rel="noopener noreferrer">FCC on Coston2</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="built" aria-labelledby="built-title">
+      <div class="wrap narrow">
+        <h2 id="built-title">Built during Flare Summer Signal</h2>
+        <ul class="built-list">
+          <li>EIP-1271 AgentVault contract as non-custodial x402 payer</li>
+          <li>Four-rule private policy evaluator in the Flare FCC enclave</li>
+          <li>Standard x402 exact + EIP-3009 settlement through Flare reference stack</li>
+        </ul>
+        <p class="built-roadmap">Next: MCP integration for your agent.</p>
+      </div>
+    </section>
+
+    <section class="section section-close" aria-labelledby="close-title">
+      <div class="wrap narrow close-inner">
+        <h2 id="close-title">Autonomy for the agent. Control for the Owner.</h2>
+        <a class="btn btn-primary" href="#demo">video coming soon</a>
+        <p class="close-meta">Built in public by @itzbankotez</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
