@@ -1,33 +1,32 @@
-# AgentVault Landing — Design Plan (frontend-design skill)
+# AgentVault Landing — Design Plan
+
+## Design read
+Hackathon landing overhaul for Flare judges. Cyber-noir ASCII brutalism with Swiss editorial type. Native CSS. AgentVault teal as CRT glow on a black void.
+
+**Dials:** VARIANCE 8 · MOTION 4 · DENSITY 3 (type) / 8 (ASCII field)
 
 ## Subject grounding
 - **Subject:** AgentVault, a Flare FCC spending-authority layer for agentic x402 payments.
-- **Audience:** Crypto-literate retail and developers (private keys, prompt injection, testnets).
-- **Single job:** Explain what AgentVault is and prove the Coston2 demo in one viewport, then drive to "Watch the demo."
+- **Audience:** Flare judges and terminal-native developers.
+- **Single job:** Make agent-blindness felt, prove Coston2, send them to the README.
 
-## Token system
+## Token system (brand palette, void ground)
 
 | Token | Value | Role |
 |-------|-------|------|
-| `--bg` | `#111318` | Page ground |
-| `--panel` | `#1a1c22` | Receipt card, sections |
-| `--panel-2` | `#20232a` | Nested surfaces |
-| `--teal` | `#9bb9bb` | Verified, links, primary accent |
-| `--text` | `#dadee8` | Body |
-| `--muted` | `#90939b` | Secondary copy |
-| `--red` | `#b77a7a` | Declined row only |
+| `--bg` | `#050608` | Void |
+| `--panel` | `#0c0e12` | Terminal / archive surfaces |
+| `--panel-2` | `#12151b` | Nested |
+| `--teal` | `#9bb9bb` | Sole accent, CRT glow |
+| `--teal-muted` | `#7a9294` | Labels |
+| `--text` | `#e8eaee` | Body |
+| `--muted` | `#8a8e96` | Secondary |
+| `--red` | `#b77a7a` | Declined only |
 | `--blue` | `#8aa0be` | External protocol links |
-| `--line` | `rgba(155,185,187,.24)` | Hairline rules |
+| `--line` | `rgba(155,185,187,.22)` | Hairlines |
 
-**Type:** Space Grotesk (display + body), IBM Plex Mono (receipt, labels, amounts, statuses).
+**Type:** Space Grotesk (editorial display + body), IBM Plex Mono (ASCII, metadata, terminals).
 
-**Layout:** Demo-first split hero. Left: thesis + CTA. Right: live authorization receipt (the proof artifact). Below: problem → mechanism flow → Coston2 proof ledger → trust boundary → hackathon built → close.
+**Signature element:** Luminance-mapped ASCII vault as the hero figure (text-as-image), counterbalanced by museum-label typography. Two-terminal cycler remains the product proof, restyled as archive panels.
 
-**Signature element:** The authorization receipt — four payment rows that resolve in sequence on load (settled / settled / settled / declined). This is AgentVault's world: policy checks rendered as terminal output, not marketing cards.
-
-**Aesthetic risk (justified):** Dense monospace receipt as the hero visual instead of a screenshot or gradient stat block. Matches build-in-public, proof-first positioning.
-
-## Self-critique vs brief
-- Avoided: purple gradients, Inter/Roboto, generic "3 stats + gradient" hero, numbered 01/02/03 decoration.
-- Kept quiet: nav, section headers, hackathon badge — receipt carries the memory.
-- Motion: one orchestrated receipt reveal only; respects `prefers-reduced-motion`.
+**Aesthetic risk:** Full-bleed ASCII as atmosphere, not a boxed illustration. Motion is one CRT bloom plus the existing scenario cycler. No animation libraries.
