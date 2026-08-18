@@ -1711,13 +1711,28 @@ code {
     width: calc(100% - 2rem);
   }
 
+  /* The wordmark alone is ~178px, so a single row cannot hold five links on a
+     phone. Nav drops to its own full-width row instead of overflowing. */
+  .header-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    padding: 0.7rem 0;
+  }
+
+  .wordmark img {
+    height: 1.25rem;
+  }
+
   .site-header nav {
-    gap: 1.15rem;
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.4rem;
   }
 
   .site-header nav a {
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
   }
 
   .rule-grid,
