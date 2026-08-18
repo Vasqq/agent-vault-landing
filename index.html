@@ -19,7 +19,7 @@
     content="The Agent uses a revocable Credential instead of a private key. A registered Flare Confidential Compute machine checks the private policy, then the Vault pays as an EIP-1271 contract signer over standard x402.">
   <meta name="twitter:image" content="https://vasqq.github.io/agent-vault-landing/assets/images/social-card.png">
   <link rel="stylesheet" href="assets/fonts/fonts.css">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260818-monitor-dot">
 </head>
 
 <body>
@@ -44,17 +44,17 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="wrap hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">Flare Summer Signal · Flare Confidential Compute Track</p>
+          <p class="eyebrow"><img class="eyebrow-flare-logo" src="assets/images/Flare_FLR_Logo_full.png" alt="Flare"><span>Summer Signal · Flare Confidential Compute Track</span></p>
           <h1 id="hero-title">
             <span class="hero-main">The authority layer between</span>
             <span class="hero-kicker">AI agents and your money.</span>
           </h1>
           <p class="lede">
-            The Agent pays with a revocable Credential instead of a private key. A registered Flare Confidential Compute
-            machine checks every request against your private policy before the Vault releases any funds.
+            AgentVault is the spending-authority layer for standard x402 on Flare.
+            Agents pay autonomously from your Vault, without the private key ever entering the agent runtime.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#get-started">Run your own</a>
+            <a class="btn btn-primary" href="#get-started">Self-host AgentVault</a>
             <a class="btn btn-secondary" href="https://youtu.be/BUQQIvgCKFQ" id="demo-cta"
               rel="noopener noreferrer" target="_blank">Watch the demo</a>
           </div>
@@ -67,51 +67,47 @@
 
         <div class="hero-aside">
           <div class="ascii-field" aria-hidden="true">
-            <pre class="ascii-vault">                                        .:~~~^^??^^^~:..
-                                  .:^?itLCCCLLLLLY0#BPYCLi1^..
-                               .^iP0PCi1^~~::..:.^tYL??1iLCYYLi^.
-                            .~iLCY0BY^:... .......::..::::~^1tCYCi^
-                          :?tCt1~::::..:~?11iitiitiii?1^~::::~~?LP0Y1.
-                        :1LCi~:....~?ii1?~~:::::::::~~?itLt?^::~?P@#0C1.
-                      .?LLi~:. .:1i1^::..:.:::::::::::~~~~?1tL1^~^11iCYL^.
-                     ~iCt^.. .~1i^:..:.::::::::::~::::~~~~~~~^iLt^:::^iCYi:
-                   .?PBP^. .~i1~...::.::::~^?111i11?^~^^~~^~^~~^1Lt^~:~?LYL^
-                  .?Y00C^.:11~.:..::::~1ii1^^~~~~~~^?1Lti?~^~^~~~~iL1~:~^iYL?
-                 .?Lt^:..~i?:...:::~1i?~~~~~~~~~~~~~~~^??tL1^^^~~~~?tt^:~~iYC?
-                .?Lt~. .^i^....::~11^:~~~~~~~~^~^^~^~^^^^^?1Li^^^~~~^it?:~~iPC?
-                ~LL^. .^i~...:::?i^::~~~~~^?iiittti1?^??^?^??1L?^^~~~^it?~?C@#Y~
-               :iL1...~i~...:.~1?~:~~~~~1i?^^^^^^^^^?iLi?^?^?^?Li^^~~~^it^^tP0Gi.
-              .?Ct:. :1^.....~1?::~~~~11^^^^^^^^^^^?^^?1Li??^?^?Li^^~~~^ti~:~1CC^
-              :iL?. .^i:...::??:~::~^i^~^^^^^^^??^?^?^???it??^?^?L1^^~~~1L^::^LYi.
-             .^LL^. :i^.....^i:::~~^i~^^~^^?tPB@#8Yi??????1L??^?^1L?^~~~^ti~:~iYL:
-             .i8@Y^.~1:....:1?::~:~i~~~^^^t@#GtiiC8@011????it??^??ti^^~~~1L^:~?CC^
-             :i0Pi~.?1.....:i~:::~^1~~^^^t@01itttiit@Bi1????L?^?^?it^~^~~?L?::^LY1
-             .iC1. .?1....:~1~::::1^~~~^?0#iitYPYCtiY@C08000@80G^^1L^^~~~^L?~:^LY1.
-             :1C?. .??:....~1:::~~?^~^~~?G#i1LC##Lt1Y#C1????t1?^^^1L^~~~~^t?:~^LY1.
-             :1L1...^1.....:i~:::~^?~~^^^t@011t@#i1t@Bi?????t?^?^^it^~~~~?L^~?Y8G1
-             .?C1: .~1:....:1^::::~i~~~^^^t@#Pt@@C8@01?????ii^^^^^t1~^~~~1L^~t8#0?
-              ^Lt~. :1^.....^1~::::^1~~~^^~?iPB@@8Y1^^???^1t?^^^^1t^~~~~~ti~:~iPL:
-              :iC?. .?1......1?:::::^i~~~^~~^^^^^^^^^^?^?1t?^^^^?t1~~~~~?t?::^tY1.
-               ?Lt~ .:i^.....:1^:::::~1?~~~~~^~^^~^^^^^?t1^^^^^^ti~~~:~~ti:::1CL^
-               :tPPt~.~i~.....:1?:::::~~?i?^~~~~^~~^^1t?^^^^~^^t1~~~~~~it^::^LY1.
-                ^G@01..^i~......?1~::::~::~^1iiiiii?^~^^~^~^^1t?~~:~:~1t^::~iYt:
-                .?CL^. .^i~......~11~::::::~:~~:~~~~:~~^~~^?t1~~~~::~1t^::~iYL^
-                 .?Lt^. .~i^.......:?i^~::::::~::~:~::~~?ii1~~~:~:~^ii~:~~iCC^
-                  .?Lt^.  :11:.......:~?i1?^~~:~::~~?1ii?^~:~:~::~?t?:~iGB0C^.
-                   .^LL1:  .~1?~.........::^^?1111?^~~:::::::::~?ii~::~t8@Y^
-                     :iLt^.  .~11~:.........:..:.::.:.:::::::~1ti~...~1CY1:
-                      .?tCi^^~:.:?i1~.............:....:::~?ti^:...:?LYt^.
-                        :?C8@8i:  .:^111^~:........:::^?it1^::..:~1LCL?.
-                          :1YPC1~.   ...~^111iiiiii11?^~::::~:~^iCCt^.
-                            .^1LLL1~:..    .... .. . ....:i0BGYYL1~
-                               .^1LLLLi1^~1CC1:.....::^?1tY00C1~.
-                                  .:~?itCCG@@GCtLLLLLCCCt1?~:
-                                       ..:~~^^??^^^^~::..</pre>
-            <p class="ascii-placard">
-              AV / VAULT<br>
-              LUMINANCE MAP<br>
-              COSTON2 · EXT 65848
-            </p>
+            <pre class="ascii-vault">
+
+                                 .........
+                          .:;ii11111111111iiii;:..
+                     .:;1111i;:.............::;;iii;:.
+                  .:itti:.. .:;i11ttttttt11i;;:...:;iii;.
+               .:itt;.  .;tfLCLLfftttftttttttttt1i;:..:;ii:.
+             .;tti.  :tLGCLft1ii;;;i<i class="bolt">tfti</i>;;;iii111ttt1i:..:;i;.
+           .;tt;. .1CGCftti;;::;;;i1<i class="bolt">tti:</i>;i;;;;;;i1t11111i:.:;i;.
+          :1fi. :f0Gf1i1<i class="bolt">fti</i>;i1fLLCCG<i class="bolt">L1ii</i>fLLfft11t<i class="bolt">Lf1</i>ii1111i:.:;;:.
+        .;f1: .f0Gt1i;:<i class="bolt">;iii1</i>CGCCLffft11ttffffffL<i class="bolt">0Li::</i>;iii111i::;i;.
+       .1fi. i0Gf1i;:;1f<i class="bolt">f1i</i>1ftttttttttttttttttttf<i class="bolt">1i;</i>iii;iii11i;::;;:
+      :1t; .f8L1i;:;1L00Lt11ttttttttttttttttttt1111tttt1i;iii1ii::;;:
+     .1t; .C0f11i;if00Lttttttttt111iiiiii111tttttt11tttt111t11iii;:;;.
+    .it; .C0t1<i class="bolt">tt1t</i>L8Ctttttttt1i;::;;iiiii;;;i11ttttt111ttC<i class="bolt">8Gti</i>iii;;;;;.
+    ;t;. L0tii<i class="bolt">;;i1f</i>ft1ttttt1;::1LG00GGCCCCLt1;;i1tttt111t<i class="bolt">Lfi::</i>iii;;;;;:.
+   :1i: iGtii;:<i class="bolt">;i1</i>111tttt1i:;C@@8Cti;;;;1fLLfftii11ttt1111<i class="bolt">i::</i>;iiii;;;i;.
+   ;1;..CL1i;:ifGt11tttt1;.f@@L1iiiiiii1Lf1;itft1i11ttt1111ii111ii;;iii:
+  .ii: iC1ii:;tGLt1tttt1;.C@0i:;i11tttf88t;:;i1t11i1ttt11111i1111ii:;ii;.
+  :1i: ff1ii;1fCt11tttti.f@G;:i1111fff@@fi:i11i11i11tt111111ii111ii;:ii;.
+  :i;..fti1i1fGL111ttt1;:G0t;tLLLLLGCC0L1i1fLLLLfi;ttt111111i1LCfii;:11i:
+  :i;.:t1i1<i class="bolt">fffL</i>t111ttt1:iCCt1LLCCG8Gtttt11LLLLC0fi:tft1111111<i class="bolt">fCLt</i>ii;.11i:
+  :i;.:t1i1<i class="bolt">i::;</i>1111ttt1;iffi:;;;;;111111;:;;;;i11;.fCt111111i<i class="bolt">;;;;</i>ii;.1ti:
+  :i;::11ii;:;it111ttt1iitti;iiiitLt;:;;;;iiiitC1..GCt111111;:;i1ii;.tti:
+  .;;::i1iii;i1t1111ttt1i1i111ttC8C1::;ii11ttL@0; t@f111111i:;1Ltii:.ft;.
+  .:;;:iiiiiii111111ttt1111;ittC@C1::i1i11ttC@G; i@Gt111111;:ifL1i;.iL1;
+   .;;:;iiiiii1111111111ttt1;;1LCtiitffLLLLffi..t@0t111111i:;tCfii:.fLi.
+    :;;:i;iiiit<i class="bolt">GGf</i>1111111tttt1;::;itLCCCCt:. .i0@Ct1111111<i class="bolt">11t</i>CL1i; iCt;
+    .;;;;;;ii1<i class="bolt">LCfi;</i>i111111tttffti;:::::...:if0@Gft111111i<i class="bolt">i1ttt</i>1i;.:CLi.
+     .;;;;;;ii<i class="bolt">1;:.</i>:ii1111111tttfLLLLfffLCG00GLtt111111i;:;<i class="bolt">;i;;</i>i;..CCi.
+      .;;;i;;iiiii1iiii11111111ttttfffLLffttt1111111i;::itLtii;.:CG1:
+       .;;ii;:;ii1111i;;i11111111111111111111111111;::;1LGf1i: ;GG1.
+        .:;iii:;ii11tt1t<i class="bolt">Lf1</i>ii11111111111111111ii1<i class="bolt">t1;</i>;1LCL1i;..10Ci.
+          .;iii;:;ii11t<i class="bolt">0Gt;:</i>;;;;iiii1111iii;;:::<i class="bolt">i1111</i>Lf1i;..;CGf:
+            :;iii;::;i11<i class="bolt">i;;</i>i11i;;;;;<i class="bolt">1f1;</i>:::;;i1tf<i class="bolt">1i;</i>i1i:..;LGLi.
+             .:;i11;:::;;;i1ttfftttf<i class="bolt">Lti;</i>1tffLLLLf1;;::..iLGLi.
+                :;i11i;::::;ii111ttf<i class="bolt">1i;i</i>tttt11i;;:...;tCCfi.
+                  .:;1111i;:::::::;;;;:;;;:::...:;1fCCfi:
+                     .:;i11tt11ii;;::::::;;i11tLLLf1;.
+                         ..:;i11ttttfffffffft11;:.
+                                 ..........</pre>
           </div>
 
           <div class="hero-stage-wrap">
@@ -120,7 +116,7 @@
               <noscript>
                 <div class="terminal-grid terminal-grid--static">
                   <article class="terminal terminal-agent">
-                    <header class="terminal-bar"><span>agent · task</span></header>
+                    <header class="terminal-bar"><span>Agent</span></header>
                     <div class="terminal-body">
                       <p class="terminal-prompt-label">task prompt</p>
                       <p class="terminal-prompt">Check the data feed at http://localhost:3402/api/premium-data. Make four fetch attempts to this exact URL, one after another, then tell me what changed between the successful snapshots and whether any attempt failed.</p>
@@ -134,10 +130,17 @@
                     </div>
                   </article>
                   <article class="terminal terminal-owner">
-                    <header class="terminal-bar"><span>owner · monitor</span></header>
+                    <header class="terminal-bar"><span>Owner</span></header>
                     <div class="terminal-body">
-                      <p class="terminal-prompt-label">owner-monitor decrypt</p>
-                      <p class="owner-reveal is-revealed">failedRuleIds=["budget-window"]</p>
+                      <p class="terminal-prompt-label">agentvault monitor</p>
+                      <div class="monitor-block is-visible">
+                        <p class="monitor-status"><span class="monitor-decline-dot" aria-hidden="true">●</span> DECLINED</p>
+                        <p class="monitor-line">attempt_id:     a824f4eae4c8…8ce6d0c52e0</p>
+                        <p class="monitor-line">instruction_id: 0x0d8c126529…75cc6786f</p>
+                        <p class="monitor-line">envelope: <strong>VERIFIED</strong> signer=0x5000…0510</p>
+                        <p class="monitor-line monitor-rule">rule fired: budget-window</p>
+                        <p class="monitor-line">amount: 0.10 USDT0</p>
+                      </div>
                     </div>
                   </article>
                 </div>
@@ -145,7 +148,7 @@
             </div>
             <div class="hero-stage-foot">
               <div class="hero-dots" id="hero-dots" role="group" aria-label="Scenario selector"></div>
-              <p class="hero-stage-caption">Four blind-agent rule runs on Coston2. The Agent learns only whether a payment succeeded or was declined. Only the Owner monitor shows which rule failed.</p>
+              <p class="hero-stage-caption" id="hero-stage-caption">Three payments go through. The fourth is stopped by the Owner's private budget.</p>
             </div>
           </div>
         </div>
@@ -155,29 +158,14 @@
     <section class="proof-bar" id="proof" aria-label="Live proof summary">
       <div class="wrap proof-bar-inner">
         <p class="proof-bar-lead">
-          <strong>4 policy rules</strong> · <strong>four blind-agent rule runs</strong> · standard x402 settlements on
-          Coston2, chain ID 114 · Simulated testnet, Mock USDT0 · runs in <strong>SIMULATED</strong> mode, so the host
-          can see secrets and the hardware attestation is not real
+          <strong>Four private policies. Four distinct declines.</strong> One standard x402 payment flow.
         </p>
-        <div class="proof-bar-links">
-          <a href="https://coston2-explorer.flare.network/address/0x5A2eb4224224aBfF6D47f4369801e6f5fb828c1C"
-            rel="noopener noreferrer">AgentVault</a>
-          <a href="https://coston2-explorer.flare.network/address/0x9b9B04c0743F83DAedf48A537b62f6D6E8777Be8"
-            rel="noopener noreferrer">SettlementUSDT0</a>
-          <a href="https://coston2-explorer.flare.network/address/0xC7E53972de3334dD5eF56D4Ad054b6841C92DbD3"
-            rel="noopener noreferrer">X402Facilitator</a>
-          <a href="https://coston2-explorer.flare.network/address/0x5000fbf0E824c19d3c99812007cDc5823dEB0510"
-            rel="noopener noreferrer">FCC machine</a>
-          <a href="https://coston2-explorer.flare.network/tx/0x771f04c8bc2b1dd5296b2c14ea0805aadd678622c426850b603ad27322e39252"
-            rel="noopener noreferrer">settle 1</a>
-          <a href="https://coston2-explorer.flare.network/tx/0x7bb986067ee128077f7ddb63fe7b986a3368ce78977fc4dfe3070de06a46ab13"
-            rel="noopener noreferrer">settle 2</a>
-          <a href="https://coston2-explorer.flare.network/tx/0x901ef8be50ee7ed16d8ed97ca4f057a243d397ab4351dd56881dfd0b7499ecb6"
-            rel="noopener noreferrer">settle 3</a>
-          <a href="https://coston2-explorer.flare.network/tx/0x0d8c12652972b83486ee5d2539e3cf6c9ffc2a32e6efffa251321ec75cc6786f"
-            rel="noopener noreferrer">budget decline</a>
-          <a href="https://github.com/vasqq/agent-vault" rel="noopener noreferrer">source</a>
-        </div>
+        <ul class="proof-bar-rail" aria-label="Policy outcomes">
+          <li>Vendor not approved</li>
+          <li>Budget limit</li>
+          <li>Payment too large</li>
+          <li>Rate limit</li>
+        </ul>
       </div>
     </section>
 
@@ -194,7 +182,7 @@
           <div class="prose-columns">
             <p>
               AgentVault keeps the Agent blind to policy details. If prompt injection or a bug drives bad behavior, the
-              Agent cannot inspect the limits and adapt around them. It learns only whether each payment succeeded or
+              Agent cannot inspect the limits and adapt around them. The agent knows only whether each payment succeeded or
               was declined.
             </p>
             <p>
@@ -203,7 +191,7 @@
               authority lives, who enforces the rules, or whether those rules stay private.
             </p>
             <p>
-              AgentVault uses the standard x402 <code>exact</code> payment flow with
+              AgentVault uses the standard x402 exact payment flow with
               <a href="https://eips.ethereum.org/EIPS/eip-3009" rel="noopener noreferrer">EIP-3009</a> on Coston2. The
               Owner can pause spending or withdraw the remaining funds at any time, even if the enclave and Gateway are
               offline.
@@ -218,40 +206,41 @@
         <p class="archive-index">02 / Mechanism</p>
         <div class="archive-body">
           <h2 id="mechanism-title">How AgentVault works</h2>
-          <div class="flow-diagram" role="img" aria-label="The Owner funds the Vault and sets policy. Separately, the Agent requests payment with its Credential; a registered Flare Confidential Compute machine checks the private policy and signs an EIP-3009 authorization; then the Vault verifies it before standard x402 settlement.">
+          <div class="flow-diagram" role="img" aria-label="The Owner funds the Vault and sets the private policy on the FCC machine. The Agent sends an encrypted Credential request into the AgentVault system, where the FCC machine checks four private rules and signs x402 with EIP-3009. The Vault independently verifies with EIP-1271 and pays the Vendor through x402 settlement.">
             <svg viewBox="0 0 920 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
                 <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
                   <path d="M0,0 L6,3 L0,6 Z" fill="#9bb9bb" />
                 </marker>
               </defs>
-              <rect x="10" y="12" width="120" height="48" rx="0" fill="#0c0e12" stroke="rgba(155,185,187,0.35)" />
-              <text x="70" y="33" fill="#e8eaee" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">Owner</text>
-              <text x="70" y="48" fill="#8a8e96" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">fund · policy</text>
-              <line x1="130" y1="36" x2="165" y2="36" stroke="#9bb9bb" marker-end="url(#arrow)" />
-              <text x="148" y="27" fill="#7a9294" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle">fund</text>
-              <rect x="170" y="12" width="130" height="48" rx="0" fill="#0c0e12" stroke="rgba(155,185,187,0.35)" />
-              <text x="235" y="33" fill="#e8eaee" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">Vault</text>
-              <text x="235" y="48" fill="#8a8e96" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">Owner funds</text>
-              <rect x="10" y="92" width="130" height="48" rx="0" fill="#0c0e12" stroke="rgba(155,185,187,0.35)" />
-              <text x="75" y="113" fill="#e8eaee" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">Agent</text>
-              <text x="75" y="128" fill="#8a8e96" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">Credential</text>
-              <line x1="140" y1="116" x2="175" y2="116" stroke="#9bb9bb" marker-end="url(#arrow)" />
-              <rect x="180" y="92" width="150" height="48" rx="0" fill="#0c0e12" stroke="rgba(155,185,187,0.35)" />
-              <text x="255" y="113" fill="#e8eaee" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">FCC machine</text>
-              <text x="255" y="128" fill="#8a8e96" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">4 private rules</text>
-              <line x1="330" y1="116" x2="370" y2="116" stroke="#9bb9bb" marker-end="url(#arrow)" />
-              <rect x="375" y="92" width="130" height="48" rx="0" fill="#0c0e12" stroke="rgba(155,185,187,0.35)" />
-              <text x="440" y="113" fill="#e8eaee" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">EIP-3009</text>
-              <text x="440" y="128" fill="#8a8e96" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">machine signs</text>
-              <line x1="505" y1="116" x2="545" y2="116" stroke="#9bb9bb" marker-end="url(#arrow)" />
-              <rect x="550" y="92" width="130" height="48" rx="0" fill="#0c0e12" stroke="rgba(155,185,187,0.35)" />
-              <text x="615" y="113" fill="#e8eaee" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">Vault</text>
-              <text x="615" y="128" fill="#8a8e96" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">EIP-1271 verify</text>
-              <line x1="680" y1="116" x2="725" y2="116" stroke="#9bb9bb" marker-end="url(#arrow)" />
-              <rect x="730" y="92" width="100" height="48" rx="0" fill="#0c0e12" stroke="rgba(155,185,187,0.35)" />
-              <text x="780" y="113" fill="#e8eaee" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">x402</text>
-              <text x="780" y="128" fill="#8a8e96" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">settle</text>
+              <rect x="220" y="2" width="510" height="146" rx="0" fill="none" stroke="rgba(155,185,187,0.45)" stroke-dasharray="5 4" />
+              <rect x="232" y="0" width="82" height="15" fill="#0c0e12" />
+              <text x="242" y="11" fill="#7a9294" font-family="IBM Plex Mono, monospace" font-size="9">AgentVault</text>
+              <rect class="diagram-node--external" x="10" y="12" width="120" height="48" rx="0" fill="none" stroke="rgba(155,185,187,0.24)" />
+              <text x="70" y="33" fill="#c2c8ce" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">Owner</text>
+              <text x="70" y="48" fill="#747983" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">Owner funds</text>
+              <line x1="130" y1="36" x2="545" y2="36" stroke="#9bb9bb" marker-end="url(#arrow)" />
+              <text x="337" y="27" fill="#7a9294" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle">fund</text>
+              <rect class="diagram-node--internal" x="550" y="12" width="150" height="48" rx="0" fill="#10131a" stroke="rgba(155,185,187,0.6)" />
+              <text x="625" y="33" fill="#e8eaee" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">Vault</text>
+              <text x="625" y="48" fill="#8a8e96" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">EIP-1271 verify + pay</text>
+              <rect class="diagram-node--external" x="10" y="92" width="130" height="48" rx="0" fill="none" stroke="rgba(155,185,187,0.24)" />
+              <text x="75" y="113" fill="#c2c8ce" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">Agent</text>
+              <text x="75" y="128" fill="#747983" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">Credential</text>
+              <line x1="140" y1="116" x2="245" y2="116" stroke="#9bb9bb" marker-end="url(#arrow)" />
+              <text x="192" y="107" fill="#7a9294" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle">encrypted request</text>
+              <rect class="diagram-node--internal" x="250" y="92" width="150" height="48" rx="0" fill="#10131a" stroke="rgba(155,185,187,0.6)" />
+              <text x="325" y="113" fill="#e8eaee" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">FCC machine</text>
+              <text x="325" y="128" fill="#8a8e96" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">checks 4 private rules</text>
+              <polyline points="400,116 625,116 625,65" fill="none" stroke="#9bb9bb" marker-end="url(#arrow)" />
+              <text x="513" y="110" fill="#7a9294" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle">signs x402 (EIP-3009)</text>
+              <line x1="700" y1="36" x2="775" y2="36" stroke="#9bb9bb" marker-end="url(#arrow)" />
+              <text x="738" y="27" fill="#7a9294" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle">settle</text>
+              <rect class="diagram-node--external" x="780" y="12" width="130" height="48" rx="0" fill="none" stroke="rgba(155,185,187,0.24)" />
+              <text x="845" y="33" fill="#c2c8ce" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">Vendor</text>
+              <text x="845" y="48" fill="#747983" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">x402 settle</text>
+              <polyline points="70,60 70,76 325,76 325,87" fill="none" stroke="#9bb9bb" marker-end="url(#arrow)" />
+              <text x="198" y="70" fill="#7a9294" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle">set private policy</text>
             </svg>
           </div>
           <ol class="flow">
@@ -293,35 +282,90 @@
         <p class="archive-index">03 / Rules</p>
         <div class="archive-body">
           <div class="section-head">
-            <p class="section-sub">Four distinct causes</p>
-            <h2 id="rules-title">Every rule, proven blind</h2>
+            <p class="section-sub">Private policy in action</p>
+            <h2 id="rules-title">The rules behind every payment</h2>
           </div>
+          <p class="rule-hint">Hover or tap a card to switch from the Agent's view to the Owner's.</p>
           <div class="rule-grid">
             <article class="rule-card">
-              <h3>Vendor allowlist</h3>
-              <p class="rule-prompt">Task: fetch today's snapshot from a data provider at <code>/api/premium-data</code> on port 3403.</p>
-              <p class="rule-agent"><span class="rule-label">Agent</span> DECLINED. No reason given.</p>
-              <p class="rule-owner"><span class="rule-label">Owner</span> the payee is not on the allowlist, <code>failedRuleIds=["vendor-allowlist"]</code></p>
+              <div class="rule-inner">
+                <div class="rule-face rule-face--agent">
+                  <p class="rule-tag">Rule 01</p>
+                  <h3>Vendor allowlist</h3>
+                  <p class="rule-prompt">Task: <em>“Pay a data provider that isn't on the Owner's approved list.”</em></p>
+                  <p class="rule-agent"><span class="rule-label">Agent</span> DECLINED</p>
+                  <button class="rule-turn" type="button" aria-expanded="false">Owner view</button>
+                </div>
+                <div class="rule-face rule-face--owner">
+                  <p class="rule-tag rule-tag--owner">Rule 01</p>
+                  <h3>Vendor allowlist</h3>
+                  <div class="rule-owner">
+                    <p class="rule-monitor-status"><span class="rule-label">Owner</span> DECLINED</p>
+                    <p class="rule-owner-reason">The payment was declined because this data provider is not on the Owner's approved vendor allowlist.</p>
+                  </div>
+                  <button class="rule-turn" type="button" aria-expanded="true">Agent view</button>
+                </div>
+              </div>
             </article>
             <article class="rule-card">
-              <h3>Rolling budget window</h3>
-              <p class="rule-prompt">Task: make four fetch attempts to <code>/api/premium-data</code>, one after another.</p>
-              <p class="rule-agent"><span class="rule-label">Agent</span> 3× PAID at 0.10, then DECLINED</p>
-              <p class="rule-owner"><span class="rule-label">Owner</span> a fourth payment would take spend to 0.40, above the 0.35 budget, <code>failedRuleIds=["budget-window"]</code></p>
-              <a class="rule-tx" href="https://coston2-explorer.flare.network/tx/0x0d8c12652972b83486ee5d2539e3cf6c9ffc2a32e6efffa251321ec75cc6786f"
-                rel="noopener noreferrer">View decline tx</a>
+              <div class="rule-inner">
+                <div class="rule-face rule-face--agent">
+                  <p class="rule-tag">Rule 02</p>
+                  <h3>Rolling budget window</h3>
+                  <p class="rule-prompt">Task: <em>“Fetch the same feed four times in a row, $0.10 each.”</em></p>
+                  <p class="rule-agent"><span class="rule-label">Agent</span> 3× PAID, then DECLINED</p>
+                  <button class="rule-turn" type="button" aria-expanded="false">Owner view</button>
+                </div>
+                <div class="rule-face rule-face--owner">
+                  <p class="rule-tag rule-tag--owner">Rule 02</p>
+                  <h3>Rolling budget window</h3>
+                  <div class="rule-owner">
+                    <p class="rule-monitor-status"><span class="rule-label">Owner</span> 3× AUTHORIZED, then DECLINED</p>
+                    <p class="rule-owner-reason">The fourth $0.10 payment would push hourly spend to $0.40, above the $0.35 rolling budget.</p>
+                  </div>
+                  <button class="rule-turn" type="button" aria-expanded="true">Agent view</button>
+                </div>
+              </div>
             </article>
             <article class="rule-card">
-              <h3>Maximum payment</h3>
-              <p class="rule-prompt">Task: fetch and summarize the report at <code>/api/report</code>, which costs 0.50 USDT0.</p>
-              <p class="rule-agent"><span class="rule-label">Agent</span> DECLINED. No reason given.</p>
-              <p class="rule-owner"><span class="rule-label">Owner</span> above the 0.15 per-payment limit, declined before settlement, <code>failedRuleIds=["max-per-payment"]</code></p>
+              <div class="rule-inner">
+                <div class="rule-face rule-face--agent">
+                  <p class="rule-tag">Rule 03</p>
+                  <h3>Maximum payment</h3>
+                  <p class="rule-prompt">Task: <em>“Buy a report priced at $0.50.”</em></p>
+                  <p class="rule-agent"><span class="rule-label">Agent</span> DECLINED</p>
+                  <button class="rule-turn" type="button" aria-expanded="false">Owner view</button>
+                </div>
+                <div class="rule-face rule-face--owner">
+                  <p class="rule-tag rule-tag--owner">Rule 03</p>
+                  <h3>Maximum payment</h3>
+                  <div class="rule-owner">
+                    <p class="rule-monitor-status"><span class="rule-label">Owner</span> DECLINED</p>
+                    <p class="rule-owner-reason">The $0.50 report was declined because it exceeds the $0.15 limit for any single payment.</p>
+                  </div>
+                  <button class="rule-turn" type="button" aria-expanded="true">Agent view</button>
+                </div>
+              </div>
             </article>
             <article class="rule-card">
-              <h3>Rate limit</h3>
-              <p class="rule-prompt">Task: make five fetch attempts to <code>/api/premium-data</code> in immediate succession.</p>
-              <p class="rule-agent"><span class="rule-label">Agent</span> 4× PAID at 0.10, then DECLINED</p>
-              <p class="rule-owner"><span class="rule-label">Owner</span> the policy allows only four requests in the one-hour window, <code>failedRuleIds=["rate-limit"]</code></p>
+              <div class="rule-inner">
+                <div class="rule-face rule-face--agent">
+                  <p class="rule-tag">Rule 04</p>
+                  <h3>Rate limit</h3>
+                  <p class="rule-prompt">Task: <em>“Fetch the feed five times in immediate succession, $0.10 each.”</em></p>
+                  <p class="rule-agent"><span class="rule-label">Agent</span> 4× PAID, then DECLINED</p>
+                  <button class="rule-turn" type="button" aria-expanded="false">Owner view</button>
+                </div>
+                <div class="rule-face rule-face--owner">
+                  <p class="rule-tag rule-tag--owner">Rule 04</p>
+                  <h3>Rate limit</h3>
+                  <div class="rule-owner">
+                    <p class="rule-monitor-status"><span class="rule-label">Owner</span> 4× AUTHORIZED, then DECLINED</p>
+                    <p class="rule-owner-reason">The fifth $0.10 payment was declined because the policy allows only four payments per hour.</p>
+                  </div>
+                  <button class="rule-turn" type="button" aria-expanded="true">Agent view</button>
+                </div>
+              </div>
             </article>
           </div>
         </div>
@@ -334,9 +378,10 @@
         <div class="archive-body">
           <h2 id="demo-video-title">Watch the demo</h2>
           <p class="demo-lead">
-            This video follows the README walkthrough: the Owner monitor and Agent terminal run side by side while the
-            Agent trips the Vendor allowlist, rolling budget window, maximum payment, and rate limit. The Agent receives
-            only a flat payment outcome; the Owner monitor verifies and reveals the private rule that declined the request.
+            Follow the README from setup to proof. The Owner funds the Vault, sets a private payment policy, and starts
+            the Owner monitor; the Agent then makes real payment attempts against all four rules. Payments that fit the
+            policy go through. When one is declined, the Agent sees only the outcome while the Owner monitor verifies and
+            decrypts the private reason.
           </p>
           <a class="demo-panel" href="https://youtu.be/BUQQIvgCKFQ" rel="noopener noreferrer"
             target="_blank">
@@ -355,49 +400,171 @@
         <p class="archive-index">05 / Run</p>
         <div class="archive-body">
           <div class="section-head">
-            <p class="section-sub">Terminal-native · run-your-own</p>
-            <h2 id="get-started-title">Run your own instance</h2>
+            <h2 id="get-started-title">Self-host AgentVault</h2>
           </div>
-          <p class="get-started-lead">
-            The <code>agentvault</code> CLI deploys the contracts and starts the enclave, Gateway, and reference x402
-            integration as your own instance. Prerequisites: Docker, Go 1.25.1+, Foundry 1.3.2+, Node.js 22+, Git, curl,
-            jq, ngrok, and a supported client: Codex or Claude. Have a Coston2 Owner wallet funded with C2FLR for gas; AgentVault
-            mints the test USDT0 later.
-          </p>
-          <ol class="setup-steps">
-            <li>
-              <h3>Clone and install</h3>
-              <div class="shell" data-shell="clone"><pre><code>git clone --recurse-submodules https://github.com/vasqq/agent-vault.git &amp;&amp;
+          <div class="get-started-intro">
+            <p>
+              Run AgentVault to see the boundary work in your own environment: an Agent can make approved purchases
+              without receiving a private key, while you keep the policy and can stop spending or withdraw funds.
+            </p>
+            <p>
+              The walkthrough deploys your instance, then drives four policy rules against standard x402 endpoints. The
+              Agent sees only whether a payment went through; the Owner monitor verifies the result and shows the
+              private reason for a decline. Together, the successful payments and stopped requests show the settlement
+              path and policy checks working end to end.
+            </p>
+          </div>
+          <section class="prerequisites" aria-labelledby="prerequisites-title">
+            <div class="prerequisites-heading">
+              <h3 id="prerequisites-title">Prerequisites</h3>
+            </div>
+            <div class="prerequisites-body">
+              <p>Install these before cloning AgentVault.</p>
+              <ul class="prerequisites-list">
+                <li>Docker</li>
+                <li>Go 1.25.1+</li>
+                <li>Foundry 1.3.2+</li>
+                <li>Node.js 22+</li>
+                <li>Git</li>
+                <li>curl</li>
+                <li>jq</li>
+                <li>ngrok</li>
+                <li>Codex or Claude</li>
+              </ul>
+              <p>Have a Coston2 wallet funded with C2FLR for gas. <a href="https://faucet.flare.network/coston2" rel="noopener noreferrer">Get C2FLR from the Coston2 faucet.</a></p>
+            </div>
+          </section>
+          <section class="run-subsection" aria-labelledby="setup-title">
+            <div class="run-subsection-head">
+              <h3 id="setup-title">Setup</h3>
+            </div>
+            <p class="run-intro">Use two terminal windows: <strong>Terminal 1: Owner</strong> runs steps 1 through 8 and keeps the Owner monitor open. Open <strong>Terminal 2: Agent</strong> only for step 9, in the same <code>agent-vault</code> checkout. During the walkthrough, submit tasks in Terminal 2 and watch verified policy results in Terminal 1.</p>
+            <ol class="run-steps">
+              <li>
+                <h3>Clone and install</h3>
+                <div class="shell" data-shell="terminal 1 · owner"><pre><code>git clone --recurse-submodules https://github.com/vasqq/agent-vault.git &amp;&amp;
   cd agent-vault &amp;&amp;
   source ./scripts/setup.sh</code></pre></div>
-            </li>
-            <li>
-              <h3>Configure Coston2</h3>
-              <div class="shell" data-shell="chain"><pre><code>./scripts/use-chain.sh coston2 go</code></pre></div>
-              <p class="step-note">Creates the root <code>.env</code>. Paste your Owner wallet key after <code>DEPLOYMENT_PRIVATE_KEY=</code> and fund the address with C2FLR. Do not export, source, or commit it.</p>
-            </li>
-            <li>
-              <h3>Preflight and stand up your instance</h3>
-              <div class="shell" data-shell="up"><pre><code>agentvault up --check --mcp-client &lt;client&gt;
-agentvault up --mcp-client &lt;client&gt;</code></pre></div>
-              <p class="step-note">Deploys your own SettlementUSDT0, AgentVault, and X402Facilitator, starts the reference server, Gateway, and enclave, and registers the machine. Wait a few minutes for the registration quarantine.</p>
-            </li>
-            <li>
-              <h3>Fund, credential, policy</h3>
-              <div class="shell" data-shell="policy"><pre><code>agentvault fund 1.00
-agentvault credential mint
-agentvault policy set --max 0.15 --budget 0.35 --seconds 3600 --rate 4 \
+                <p class="step-note">Start in Terminal 1 (Owner). <code>setup.sh</code> installs the contract toolchain, x402 reference, and AgentVault CLI, then updates this shell’s <code>PATH</code>.</p>
+              </li>
+              <li>
+                <h3>Configure Coston2</h3>
+                <div class="shell" data-shell="terminal 1 · owner"><pre><code>./scripts/use-chain.sh coston2 go</code></pre></div>
+                <p class="step-note">This creates the root <code>.env</code> and configures Coston2 for AgentVault.</p>
+                <ol class="step-list">
+                  <li>Open the new <code>.env</code> in the repository root and find <code>DEPLOYMENT_PRIVATE_KEY=</code>.</li>
+                  <li>Paste the Owner wallet’s private key after <code>=</code>, then save the file.</li>
+                  <li>Do not export, source, or commit this key, and do not reuse it for any service.</li>
+                  <li>Copy the wallet’s public address and fund it with C2FLR from the <a href="https://faucet.flare.network/coston2" rel="noopener noreferrer">Coston2 faucet</a>. A fresh run deploys three contracts and registers a TEE machine.</li>
+                </ol>
+              </li>
+              <li>
+                <h3>Run preflight</h3>
+                <div class="shell" data-shell="codex"><pre><code>agentvault up --check --mcp-client codex</code></pre></div>
+                <div class="shell" data-shell="claude"><pre><code>agentvault up --check --mcp-client claude</code></pre></div>
+                <p class="step-note">This checks that your system is ready to run AgentVault and that all prerequisites are met.</p>
+              </li>
+              <li>
+                <h3>Stand up your instance</h3>
+                <div class="shell" data-shell="codex"><pre><code>agentvault up --mcp-client codex</code></pre></div>
+                <div class="shell" data-shell="claude"><pre><code>agentvault up --mcp-client claude</code></pre></div>
+                <p class="step-note">This deploys your own <code>SettlementUSDT0</code>, <code>AgentVault</code>, and <code>X402Facilitator</code>; starts the reference server, Gateway, and enclave; registers the machine; and writes <code>~/.agentvault/instance.json</code>.</p>
+                <p class="step-note">Wait a few minutes after completion for the registration quarantine.</p>
+              </li>
+              <li>
+                <h3>Fund your Vault</h3>
+                <div class="shell" data-shell="terminal 1 · owner"><pre><code>agentvault fund 1.00</code></pre></div>
+                <p class="step-note">This deposits 1.00 test USDT0 into AgentVault.</p>
+              </li>
+              <li>
+                <h3>Mint a Credential</h3>
+                <div class="shell" data-shell="terminal 1 · owner"><pre><code>agentvault credential mint</code></pre></div>
+                <p class="step-note">The command prints two values. Save them somewhere secure:</p>
+                <ul class="step-list">
+                  <li><strong>Credential:</strong> 64 lowercase hex characters with no <code>0x</code> prefix. Paste it into the Agent launcher’s hidden prompt in step 9.</li>
+                  <li><strong>Policy digest:</strong> <code>0x</code> followed by 64 lowercase hex characters. Paste it into <code>--credential-digest</code> in step 7 and again in the Phase B policy update.</li>
+                </ul>
+              </li>
+              <li>
+                <h3>Set your private policy</h3>
+                <div class="shell" data-shell="terminal 1 · owner"><pre><code>agentvault policy set \
+  --max 0.15 \
+  --budget 0.35 \
+  --seconds 3600 \
+  --rate 4 \
   --vendor 0x2222222222222222222222222222222222222222 \
   --credential-digest '&lt;paste the Policy digest value here&gt;'</code></pre></div>
-            </li>
-            <li>
-              <h3>Start the Owner monitor and your Agent</h3>
-              <div class="shell" data-shell="run"><pre><code>agentvault monitor
-agentvault agent start --client &lt;client&gt;</code></pre></div>
-              <p class="step-note">Choose <code>codex</code> or <code>claude</code> for <code>&lt;client&gt;</code>. Run the monitor in the Owner terminal, then start the Agent in a second terminal and paste the Credential at the hidden prompt.</p>
-              <p class="step-note">This is the condensed setup path. The <a href="https://github.com/vasqq/agent-vault#quickstart" rel="noopener noreferrer">README walkthrough</a> adds the second Vendor, ordered four-rule prompts, the Phase B policy update, and client-specific commands.</p>
-            </li>
-          </ol>
+                <p class="step-note">This policy allows:</p>
+                <ul class="step-list">
+                  <li>maximum payment (<code>--max 0.15</code>): up to 0.15 USD per payment</li>
+                  <li>rolling budget window (<code>--budget 0.35</code>, <code>--seconds 3600</code>): up to 0.35 USD during any one-hour window</li>
+                  <li>Vendor allowlist (<code>--vendor</code>): payments only to the listed address</li>
+                  <li>rate limit (<code>--rate 4</code>, <code>--seconds 3600</code>): up to four approved payments during that same one-hour window</li>
+                </ul>
+              </li>
+              <li>
+                <h3>Start the Owner view</h3>
+                <div class="shell" data-shell="terminal 1 · owner"><pre><code>./scripts/agentvault-vendors.sh --wait-ready</code></pre></div>
+                <p class="step-note">Wait for <code>Second vendor ready: http://localhost:3403 (token/facilitator/payee identity verified)</code>. The Vendor stays running in the background.</p>
+                <div class="shell" data-shell="terminal 1 · owner"><pre><code>agentvault monitor</code></pre></div>
+                <p class="step-note">Leave Terminal 1 open with the Owner monitor running.</p>
+              </li>
+              <li>
+                <h3>Start your Agent</h3>
+                <div class="shell" data-shell="codex"><pre><code>agentvault agent start --client codex</code></pre></div>
+                <div class="shell" data-shell="claude"><pre><code>agentvault agent start --client claude</code></pre></div>
+                <p class="step-note">Open Terminal 2 in the same checkout. Do not source <code>.env</code> or start the coding client directly. The launcher configures MCP and opens a hidden prompt; paste the Credential from step 6, not the Policy digest. Leave Terminal 2 open after the coding agent starts.</p>
+              </li>
+            </ol>
+          </section>
+          <section class="run-subsection demo-walkthrough" aria-labelledby="walkthrough-title">
+            <div class="run-subsection-head">
+              <h3 id="walkthrough-title">Demo walkthrough</h3>
+            </div>
+            <p class="run-intro">Keep both terminals open side by side. Paste each task into Terminal 2 (Agent), one at a time, in this exact order. Watch Terminal 1 (Owner) for the matching result. The Agent sees only its task and whether it succeeded or was declined. Both terminals show the same public <code>attempt_id</code>, but only the Owner monitor shows why a payment was declined.</p>
+            <p class="demo-policy"><strong>Phase A policy</strong> · <code>max 0.15</code> · <code>budget 0.35</code> · <code>seconds 3600</code> · <code>rate 4</code></p>
+            <ol class="run-steps demo-steps">
+              <li>
+                <h3>vendor-allowlist</h3>
+                <div class="shell task-prompt" data-shell="terminal 2 · agent"><pre><code>A data provider is available at http://localhost:3403/api/premium-data. Fetch today's snapshot from it and summarize what's there. Use AgentVault to discover the public payment terms for this exact URL. I authorize AgentVault to make the one payment this task requests at that discovered public price and to that discovered public payee.</code></pre></div>
+                <p class="step-note">Use this task to request a payment from a different Vendor than the one in the policy.</p>
+                <p class="step-note"><strong>Expected result:</strong> The Agent sees a decline. The Owner monitor shows that the payee is not on the allowlist.</p>
+              </li>
+              <li>
+                <h3>budget-window</h3>
+                <div class="shell task-prompt" data-shell="terminal 2 · agent"><pre><code>Check the data feed at http://localhost:3402/api/premium-data. Make four fetch attempts to this exact URL, one after another. Complete all four attempts even if the data does not change, then tell me what changed between the successful snapshots and whether any attempt failed. Use AgentVault to discover the public payment terms for this exact URL. I authorize AgentVault to make every payment this task requests at that discovered public price and to that discovered public payee, including all repeated payments.</code></pre></div>
+                <p class="step-note">Use this task to make four payment attempts against the approved Vendor.</p>
+                <p class="step-note"><strong>Expected result:</strong> Each fetch costs 0.10 USDT0. The first three payments go through; the fourth would take total spend to 0.40 USDT0, above the 0.35 USDT0 budget. The Agent sees a decline, while the Owner monitor shows the budget-window reason.</p>
+              </li>
+            </ol>
+            <div class="walkthrough-action">
+              <p class="step-note">To test the remaining rules on their own, change only the budget. Press Ctrl-C in Terminal 1 to stop <code>agentvault monitor</code>, then run this update.</p>
+              <div class="shell" data-shell="terminal 1 · owner"><pre><code>agentvault policy set \
+  --max 0.15 \
+  --budget 0.50 \
+  --seconds 3600 \
+  --rate 4 \
+  --vendor 0x2222222222222222222222222222222222222222 \
+  --credential-digest '&lt;paste the Policy digest value here&gt;'</code></pre></div>
+              <p class="step-note">Restart only the Owner monitor in Terminal 1.</p>
+              <div class="shell" data-shell="terminal 1 · owner"><pre><code>agentvault monitor</code></pre></div>
+            </div>
+            <p class="demo-policy"><strong>Phase B policy</strong> · <code>max 0.15</code> · <code>budget 0.50</code> · <code>seconds 3600</code> · <code>rate 4</code></p>
+            <ol class="run-steps demo-steps demo-steps--phase-b">
+              <li>
+                <h3>max-per-payment</h3>
+                <div class="shell task-prompt" data-shell="terminal 2 · agent"><pre><code>Fetch and summarize the report at http://localhost:3402/api/report. Use AgentVault to discover the public payment terms for this exact URL. I authorize AgentVault to make the one payment this task requests at that discovered public price and to that discovered public payee.</code></pre></div>
+                <p class="step-note">Use this task to request the report that exceeds the per-payment limit.</p>
+                <p class="step-note"><strong>Expected result:</strong> The report costs 0.50 USDT0, which is above the 0.15 USDT0 per-payment limit. The request is declined before settlement.</p>
+              </li>
+              <li>
+                <h3>rate-limit</h3>
+                <div class="shell task-prompt" data-shell="terminal 2 · agent"><pre><code>Pull the data feed at http://localhost:3402/api/premium-data. Make five fetch attempts to this exact URL in immediate succession, with no pause between them. Complete all five attempts even if the data does not change, then tell me what changed between the successful pulls and whether any attempt failed. Use AgentVault to discover the public payment terms for this exact URL. I authorize AgentVault to make every payment this task requests at that discovered public price and to that discovered public payee, including all repeated payments.</code></pre></div>
+                <p class="step-note">Use this task to make five immediate payment attempts.</p>
+                <p class="step-note"><strong>Expected result:</strong> With the new 0.50 USDT0 budget, the first four 0.10 USDT0 payments are allowed. The fifth request is declined because the policy allows only four requests in the one-hour window.</p>
+              </li>
+            </ol>
+          </section>
           <div class="get-started-links">
             <a class="btn btn-primary" href="https://github.com/vasqq/agent-vault#quickstart" rel="noopener noreferrer">Full README quickstart</a>
             <a class="btn btn-secondary" href="https://github.com/vasqq/agent-vault" rel="noopener noreferrer">View source on GitHub</a>
@@ -412,27 +579,56 @@ agentvault agent start --client &lt;client&gt;</code></pre></div>
         <div class="archive-body">
           <h2 id="built-title">Built during Flare Summer Signal</h2>
           <ul class="built-list">
-            <li>A run-your-own Owner CLI that deploys and operates an isolated AgentVault instance: setup, preflight, funding, policy configuration, Credential minting, monitoring, pause, and withdrawal</li>
-            <li>A private four-rule payment policy: vendor allowlist, maximum payment, rolling budget window, and rate limit</li>
-            <li>Credential-based agent access and an Owner-only monitor that verifies the signed FCC result before showing private policy detail</li>
-            <li>A connected-agent walkthrough that drives all four policy rules against standard x402 endpoints</li>
+            <li>The Owner keeps the funds in an AgentVault contract, sets a private policy, and can pause spending or withdraw funds at any time.</li>
+            <li>The Agent gets a Credential instead of a payment-signing key. It can request a payment but cannot sign or send a transaction, and learns only whether the request succeeded or was declined.</li>
+            <li>A registered Flare FCC machine checks the private vendor allowlist, maximum payment, rolling budget window, and rate limit before it signs an approved EIP-3009 authorization.</li>
+            <li>The Vault pays through standard x402 as an EIP-1271 contract signer, after it verifies the registered machine and the exact payment terms on-chain.</li>
           </ul>
-          <p class="built-roadmap">Roadmap: a hosted AgentVault instance, and a small fee on each protected payment.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-panel" id="roadmap" aria-labelledby="roadmap-title" data-reveal>
+      <div class="wrap archive">
+        <p class="archive-index">07 / Roadmap</p>
+        <div class="archive-body">
+          <h2 id="roadmap-title">What's next</h2>
+          <p class="roadmap-lead">
+            AgentVault is self-hosted today. Next comes a hosted option and a small fee on approved payments.
+          </p>
+          <ol class="roadmap-track">
+            <li class="roadmap-node roadmap-node--next">
+              <p class="roadmap-stage">01 / Hosting</p>
+              <h3>Hosted AgentVault</h3>
+              <p>
+                Teams would connect an agent to a hosted AgentVault instance instead of deploying and operating the
+                full stack themselves. They could set spending rules from a web app. Running your own instance stays
+                supported.
+              </p>
+            </li>
+            <li class="roadmap-node roadmap-node--then">
+              <p class="roadmap-stage">02 / Pricing</p>
+              <h3>A fee on approved payments</h3>
+              <p>
+                Charge a small, clear fee only on payments AgentVault approves. Show it up front and price it in line
+                with comparable payment infrastructure.
+              </p>
+            </li>
+          </ol>
         </div>
       </div>
     </section>
 
     <section class="section section-close" aria-labelledby="close-title" data-reveal>
       <div class="wrap">
-        <p class="archive-index close-index">07 / Close</p>
         <div class="close-inner">
           <h2 id="close-title">Autonomy for the agent. Control for the Owner.</h2>
           <div class="close-actions">
-            <a class="btn btn-primary" href="#get-started">Run your own</a>
+            <a class="btn btn-primary" href="#get-started">Self-host AgentVault</a>
             <a class="btn btn-secondary" href="https://youtu.be/BUQQIvgCKFQ"
               rel="noopener noreferrer" target="_blank">Watch the demo</a>
           </div>
-          <p class="close-meta">Built by @itzbankotez · <a href="https://github.com/vasqq/agent-vault"
+          <p class="close-meta">Built by <a href="https://x.com/itzbankotez" rel="noopener noreferrer">@itzbankotez</a> · <a href="https://github.com/vasqq/agent-vault"
               rel="noopener noreferrer">github.com/vasqq/agent-vault</a></p>
         </div>
       </div>
@@ -441,7 +637,7 @@ agentvault agent start --client &lt;client&gt;</code></pre></div>
 
   <footer class="site-footer">
     <div class="wrap footer-inner">
-      <span>AgentVault · Flare Confidential Compute Track · Coston2 testnet</span>
+      <span>AgentVault · Flare Confidential Compute Track</span>
       <a href="https://github.com/vasqq/agent-vault" rel="noopener noreferrer">GitHub</a>
     </div>
   </footer>

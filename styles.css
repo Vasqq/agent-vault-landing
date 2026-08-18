@@ -168,11 +168,21 @@ a:hover {
 }
 
 .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
   margin: 0 0 1.6rem;
   color: var(--teal-muted);
   font: 500 0.68rem/1 var(--font-mono);
   letter-spacing: 0.22em;
   text-transform: uppercase;
+}
+
+.eyebrow-flare-logo {
+  display: block;
+  width: auto;
+  height: 0.76rem;
+  flex: 0 0 auto;
 }
 
 h1 {
@@ -285,6 +295,9 @@ h1 {
   gap: 1.1rem;
   pointer-events: none;
   user-select: none;
+  /* The spinning block's bounding box is wider than its ink (the corners are
+     void), so clip it rather than let it push a horizontal scrollbar. */
+  overflow: hidden;
 }
 
 .ascii-field::after {
@@ -301,21 +314,91 @@ h1 {
 
 .ascii-vault {
   margin: 0;
-  font: 400 clamp(3.6px, 0.53vw, 6.6px)/1.08 var(--font-mono);
+  font: 400 clamp(6px, 0.95vw, 11px)/1.08 var(--font-mono);
   letter-spacing: 0;
   white-space: pre;
+  /* Low-contrast tint only. The character ramp already carries the shading,
+     so a wide gradient here would flatten the luminance map it encodes. */
   background-image: linear-gradient(
     118deg,
-    #f3f8f8 0%,
-    #c8dcdc 16%,
-    #9bb9bb 36%,
-    #6d8586 58%,
-    #3c4a4b 78%,
-    #161c1e 100%
+    #d7e6e7 0%,
+    #b3cacb 30%,
+    #93aeb0 62%,
+    #74898b 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  /* The door turns slowly while the agent runs, and halts on a decline.
+     Promoted to its own layer so the spin composites instead of repainting
+     every glyph each frame. */
+  transform-origin: 50% 50%;
+  will-change: transform;
+  animation: vault-spin 120s linear infinite;
+}
+
+.ascii-field.is-declined .ascii-vault {
+  animation-play-state: paused;
+}
+
+@keyframes vault-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Locking-bolt ring. Rests in AgentVault cyan so the brand colour is the
+   persistent state; a decline flashes red for three pulses, then settles
+   back to cyan. */
+.ascii-vault .bolt {
+  font-style: normal;
+  color: var(--teal);
+}
+
+.ascii-field.is-paid .ascii-vault .bolt {
+  animation: bolt-paid 1.1s ease-out 1;
+}
+
+.ascii-field.is-declined .ascii-vault .bolt {
+  animation: bolt-decline 3.1s ease-in-out 1;
+}
+
+@keyframes bolt-paid {
+  0% {
+    color: var(--teal);
+  }
+  30% {
+    color: #dff2f3;
+  }
+  100% {
+    color: var(--teal);
+  }
+}
+
+/* Six pulses at a ~0.48s period, then settles back to cyan. */
+@keyframes bolt-decline {
+  0% {
+    color: var(--teal);
+  }
+  3%,
+  18%,
+  34%,
+  49%,
+  65%,
+  80% {
+    color: var(--red);
+  }
+  9%,
+  25%,
+  40%,
+  56%,
+  71%,
+  87% {
+    color: var(--teal);
+  }
+  100% {
+    color: var(--teal);
+  }
 }
 
 .ascii-placard {
@@ -385,6 +468,14 @@ h1 {
   border: 1px solid var(--line);
 }
 
+.terminal-owner {
+  order: 1;
+}
+
+.terminal-agent {
+  order: 2;
+}
+
 .terminal {
   background: var(--panel);
   min-height: 17rem;
@@ -445,6 +536,10 @@ h1 {
   transform: translateY(4px);
 }
 
+.terminal-row:last-child {
+  border-bottom: 0;
+}
+
 .terminal-row.is-visible {
   opacity: 1;
   transform: translateY(0);
@@ -476,56 +571,62 @@ h1 {
   color: var(--red);
 }
 
-.terminal-agent-note {
-  margin: 0.7rem 0 0;
-  color: var(--muted);
-  font-style: italic;
-}
-
-.owner-meta {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.25rem 0.65rem;
-  margin: 0 0 0.5rem;
-}
-
-.owner-meta dt {
+.monitor-status,
+.monitor-line {
   margin: 0;
-  color: var(--muted);
-  font-size: 0.58rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
-.owner-meta dd {
-  margin: 0;
-  color: var(--text);
+.monitor-block {
+  margin-top: 0.7rem;
+  opacity: 0;
+  transform: translateY(4px);
 }
 
-.owner-reveal {
-  margin: 0;
-  padding: 0.6rem 0.7rem;
-  border: 1px solid var(--line);
-  background: var(--panel-2);
-  color: var(--teal);
-  filter: blur(6px);
-  opacity: 0.35;
-  transition: filter 0.45s ease, opacity 0.45s ease;
-}
-
-.owner-reveal.is-revealed {
-  filter: none;
+.monitor-block.is-visible {
   opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.owner-tx {
-  margin: 0.6rem 0 0;
+.monitor-status {
+  margin-bottom: 0.55rem;
+  color: var(--red);
+  font-weight: 600;
+  letter-spacing: 0.06em;
 }
 
-.owner-tx a {
-  font-size: 0.66rem;
-  text-decoration: none;
-  color: var(--teal-muted);
+.monitor-decline-dot {
+  display: inline-block;
+  color: var(--red);
+  animation: monitor-decline-dot 1s ease-in-out infinite;
+}
+
+@keyframes monitor-decline-dot {
+  0%,
+  100% {
+    opacity: 0.35;
+    text-shadow: none;
+  }
+
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 0.55rem rgba(205, 130, 130, 0.7);
+  }
+}
+
+.monitor-line {
+  color: var(--muted);
+  font-size: 0.62rem;
+  overflow-wrap: anywhere;
+}
+
+.monitor-line strong {
+  color: var(--teal);
+}
+
+.monitor-rule {
+  margin-top: 0.28rem;
+  color: var(--text);
 }
 
 /* ---------- proof bar ---------- */
@@ -558,22 +659,26 @@ h1 {
   font-weight: 600;
 }
 
-.proof-bar-links {
+.proof-bar-rail {
   display: flex;
   flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
   gap: 0.65rem 1.15rem;
+  list-style: none;
 }
 
-.proof-bar-links a {
+.proof-bar-rail li {
   font: 500 0.62rem/1 var(--font-mono);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  text-decoration: none;
   color: var(--teal);
 }
 
-.proof-bar-links a:hover {
-  color: var(--text);
+.proof-bar-rail li::before {
+  content: "·";
+  margin-right: 0.45rem;
+  color: var(--teal-muted);
 }
 
 /* ---------- sections / archive grid ---------- */
@@ -722,38 +827,160 @@ code {
 
 /* ---------- 03 rules ---------- */
 
+.rule-hint {
+  margin: -0.75rem 0 1.5rem;
+  color: var(--teal-muted);
+  font: 500 0.62rem/1.5 var(--font-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Cards are detached from the old hairline grid so each can turn freely. */
 .rule-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
+  gap: 1rem;
   counter-reset: rule;
 }
 
+/* Decrypt transition. The Owner pane sits beneath the Agent pane as blurred
+   ciphertext, then resolves into plaintext from top to bottom. */
 .rule-card {
   counter-increment: rule;
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem 1.35rem;
-  background: var(--bg);
+  position: relative;
+  display: grid;
+  min-height: 20.5rem;
   min-width: 0;
 }
 
-.rule-card::before {
-  content: "Rule " counter(rule, decimal-leading-zero);
-  margin-bottom: 1.5rem;
+/* Stretches to fill the card so every visible face border is the same
+   height across the row, not just the (invisible) card box. */
+.rule-inner {
+  display: grid;
+}
+
+.rule-face {
+  /* Both faces occupy the same grid cell, so the card grows to fit whichever
+     is taller rather than letting the Owner pane overflow a fixed height. */
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1.35rem;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  transition: opacity 0.34s ease, filter 0.9s cubic-bezier(0.33, 0.9, 0.4, 1), border-color 0.3s ease,
+    visibility 0s linear 0.30s;
+}
+
+.rule-face--agent {
+  opacity: 1;
+  filter: none;
+  visibility: visible;
+  z-index: 2;
+  /* Appearing: visible at once, so it can fade in and stay focusable. */
+  transition: opacity 0.34s ease, filter 0.9s cubic-bezier(0.33, 0.9, 0.4, 1), border-color 0.3s ease,
+    visibility 0s linear 0s;
+}
+
+.rule-face--owner {
+  background: var(--panel);
+  border-color: rgba(155, 185, 187, 0.34);
+  opacity: 0;
+  filter: blur(7px);
+  visibility: hidden;
+  z-index: 1;
+}
+
+/* Opening: the incoming face must be visible immediately so it can fade in
+   and so its controls are focusable; the outgoing one waits for the fade. */
+.rule-card.is-open .rule-face--agent {
+  opacity: 0;
+  filter: blur(8px);
+  visibility: hidden;
+  /* Leaving: hold visibility until the fade completes. */
+  transition: opacity 0.34s ease, filter 0.9s cubic-bezier(0.33, 0.9, 0.4, 1), border-color 0.3s ease,
+    visibility 0s linear 0.30s;
+}
+
+.rule-card.is-open .rule-face--owner {
+  opacity: 1;
+  filter: none;
+  visibility: visible;
+  transition: opacity 0.34s ease, filter 0.9s cubic-bezier(0.33, 0.9, 0.4, 1), border-color 0.3s ease,
+    visibility 0s linear 0s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .rule-card:hover .rule-face--agent {
+    opacity: 0;
+    filter: blur(8px);
+    visibility: hidden;
+    transition: opacity 0.34s ease, filter 0.9s cubic-bezier(0.33, 0.9, 0.4, 1), border-color 0.3s ease,
+      visibility 0s linear 0.30s;
+  }
+
+  .rule-card:hover .rule-face--owner {
+    opacity: 1;
+    filter: none;
+    visibility: visible;
+    transition: opacity 0.34s ease, filter 0.9s cubic-bezier(0.33, 0.9, 0.4, 1), border-color 0.3s ease,
+      visibility 0s linear 0s;
+  }
+
+  .rule-card:hover .rule-face {
+    border-color: var(--teal);
+  }
+
+}
+
+.rule-tag {
+  margin: 0 0 1.4rem;
   color: var(--teal-muted);
   font: 500 0.6rem/1 var(--font-mono);
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
+.rule-tag--owner {
+  color: var(--teal);
+}
+
+.rule-turn {
+  margin-top: auto;
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--teal);
+  font: 500 0.62rem/1 var(--font-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+
+.rule-turn:hover {
+  color: var(--text);
+}
+
+.rule-prompt {
+  min-height: 4.8em; /* 3 lines at line-height 1.6 */
+}
+
 .rule-card h3 {
+  min-height: 2.5em; /* 2 lines at line-height 1.25 */
+
   margin: 0 0 0.9rem;
   color: var(--text);
   font: 500 1.18rem/1.25 var(--font-display);
   letter-spacing: -0.015em;
+}
+
+/* The task reads as a quoted instruction handed to the agent. Line-height
+   stays generous so italic descenders (y, g, p, q) never clip. */
+.rule-prompt em {
+  font-style: italic;
+  color: var(--text);
 }
 
 .rule-prompt,
@@ -768,6 +995,25 @@ code {
   margin-bottom: 1.5rem;
 }
 
+.rule-monitor-status,
+.rule-owner-reason {
+  margin: 0;
+}
+
+.rule-monitor-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: baseline;
+  color: var(--teal);
+  font: 500 0.62rem/1.55 var(--font-mono);
+  letter-spacing: 0.08em;
+}
+
+.rule-owner-reason {
+  margin-top: 0.65rem;
+}
+
 .rule-label {
   display: inline-block;
   min-width: 3.4rem;
@@ -775,6 +1021,13 @@ code {
   font: 600 0.58rem/1 var(--font-mono);
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+/* Inside a face the turn button owns the bottom edge, so the tx link
+   sits directly under the reason instead of also claiming auto margin. */
+.rule-face .rule-tx {
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 
 .rule-tx {
@@ -797,6 +1050,17 @@ code {
   max-width: 64ch;
   font-size: 1rem;
   line-height: 1.7;
+}
+
+.demo-disclosure {
+  margin: 1rem 0 0;
+  max-width: 72ch;
+  color: var(--muted);
+  font: 400 0.68rem/1.65 var(--font-mono);
+}
+
+.demo-disclosure a {
+  color: var(--teal);
 }
 
 .demo-panel {
@@ -882,31 +1146,143 @@ code {
 
 /* ---------- 05 run ---------- */
 
-.get-started-lead {
-  margin: 0 0 2.75rem;
+.get-started-intro {
+  margin: 0 0 1.75rem;
   max-width: 64ch;
   line-height: 1.7;
 }
 
-.setup-steps {
+.get-started-intro p {
+  margin: 0;
+}
+
+.get-started-intro p + p {
+  margin-top: 0.85rem;
+}
+
+.prerequisites {
+  margin: 0 0 2.75rem;
+  padding: 1.2rem 0 1.35rem;
+  border-top: 1px solid rgba(155, 185, 187, 0.36);
+  border-bottom: 1px solid rgba(155, 185, 187, 0.18);
+}
+
+.prerequisites h3 {
+  margin: 0 0 0.85rem;
+  color: var(--text);
+  font: 500 1.18rem/1.3 var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+.prerequisites-body > p {
+  margin: 0;
+  max-width: 64ch;
+}
+
+.prerequisites-body > p:last-child {
+  margin-top: 0.9rem;
+}
+
+.prerequisites-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.85rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.prerequisites-list li {
+  color: var(--text);
+  font: 400 0.78rem/1.35 var(--font-mono);
+}
+
+.prerequisites-list li:not(:last-child)::after {
+  content: "/";
+  margin-left: 0.85rem;
+  color: var(--muted);
+}
+
+.run-subsection {
+  margin: 0 0 3.5rem;
+}
+
+.run-subsection + .run-subsection {
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(155, 185, 187, 0.36);
+}
+
+.run-subsection-head {
+  margin-bottom: 1rem;
+}
+
+.run-subsection-head h3 {
+  margin: 0;
+  color: var(--text);
+  font: 500 1.45rem/1.2 var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.run-intro {
+  max-width: 72ch;
+  margin: 0 0 2rem;
+  line-height: 1.7;
+}
+
+.step-list {
+  margin: 1.15rem 0 1.25rem;
+  padding-left: 1.2rem;
+}
+
+.step-list li {
+  counter-increment: none;
+  margin: 0.45rem 0;
+  padding-left: 0.2rem;
+  font-size: 0.8rem;
+  line-height: 1.65;
+}
+
+.step-list li::before {
+  content: none;
+}
+
+.demo-policy {
+  margin: 0 0 1.5rem;
+  color: var(--text);
+  font: 400 0.76rem/1.6 var(--font-mono);
+}
+
+.demo-steps {
+  margin-bottom: 2rem;
+}
+
+.task-prompt code {
+  white-space: pre-wrap;
+}
+
+.run-steps {
   margin: 0 0 2.5rem;
   padding: 0;
   list-style: none;
   counter-reset: setup;
 }
 
-.setup-steps li {
+.run-steps.demo-steps--phase-b {
+  counter-reset: setup 2;
+}
+
+.run-steps > li {
   counter-increment: setup;
-  margin-bottom: 2.25rem;
+  margin-bottom: 3rem;
   padding-left: 4rem;
   position: relative;
 }
 
-.setup-steps li:last-child {
+.run-steps > li:last-child {
   margin-bottom: 0;
 }
 
-.setup-steps li::before {
+.run-steps > li::before {
   content: counter(setup, decimal-leading-zero);
   position: absolute;
   left: 0;
@@ -916,11 +1292,28 @@ code {
   letter-spacing: 0.16em;
 }
 
-.setup-steps h3 {
+.run-steps > li > h3 {
   margin: 0 0 0.85rem;
   color: var(--text);
   font: 500 1.18rem/1.3 var(--font-display);
   letter-spacing: -0.015em;
+}
+
+/* Nested instructions belong to their parent step; they do not advance the
+   numbered setup sequence. */
+.run-steps .step-list li {
+  counter-increment: none;
+  margin: 0.45rem 0;
+  padding-left: 0.2rem;
+  position: static;
+}
+
+.run-steps .step-list li::before {
+  content: none;
+}
+
+.walkthrough-action {
+  margin: 0 0 1.5rem 4rem;
 }
 
 .shell {
@@ -953,8 +1346,10 @@ code {
 }
 
 .step-note {
-  margin: 0.7rem 0 0;
-  font-size: 0.88rem;
+  margin: 1.15rem 0 1rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.65;
 }
 
 .get-started-links,
@@ -980,6 +1375,10 @@ code {
   font-size: 0.95rem;
 }
 
+.built-list li:last-child {
+  border-bottom: 0;
+}
+
 .built-roadmap {
   margin: 0;
   font: 500 0.74rem/1.5 var(--font-mono);
@@ -987,15 +1386,138 @@ code {
   color: var(--teal-muted);
 }
 
+/* ---------- 07 roadmap ---------- */
+
+.roadmap-lead {
+  margin: 0 0 3rem;
+  max-width: 58ch;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.roadmap-track {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.roadmap-node {
+  position: relative;
+  padding: 1.75rem 1.6rem 1.9rem;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  min-width: 0;
+  /* Each node arrives after the connector has reached it. */
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.roadmap-node--next {
+  border-color: rgba(155, 185, 187, 0.4);
+}
+
+/* Distance reads as time: the nearer item is brighter, the later one recedes. */
+.roadmap-node--then {
+  background: transparent;
+}
+
+.roadmap-node--then h3,
+.roadmap-node--then p {
+  color: var(--muted);
+}
+
+.section.is-revealed .roadmap-node {
+  opacity: 1;
+  transform: none;
+}
+
+.section.is-revealed .roadmap-node--next {
+  transition-delay: 0.1s;
+}
+
+.section.is-revealed .roadmap-node--then {
+  transition-delay: 0.72s;
+}
+
+/* Connector: a hairline that draws from the first node toward the second,
+   so the section reads as a sequence rather than two loose panels. */
+.roadmap-node--next::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 3.1rem;
+  width: 3.5rem;
+  height: 1px;
+  background: linear-gradient(to right, var(--teal), rgba(155, 185, 187, 0.25));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) 0.42s;
+}
+
+.section.is-revealed .roadmap-node--next::after {
+  transform: scaleX(1);
+}
+
+.roadmap-stage {
+  margin: 0 0 1.5rem;
+  color: var(--teal);
+  font: 500 0.6rem/1 var(--font-mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.roadmap-node--then .roadmap-stage {
+  color: var(--teal-muted);
+}
+
+.roadmap-node h3 {
+  margin: 0 0 1rem;
+  color: var(--text);
+  font: 500 1.3rem/1.25 var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.roadmap-node p {
+  margin: 0 0 0.9rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.roadmap-node p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 860px) {
+  .roadmap-track {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  /* Stacked: the connector runs down instead of across. */
+  .roadmap-node--next::after {
+    left: 2.4rem;
+    top: 100%;
+    width: 1px;
+    height: 3rem;
+    background: linear-gradient(to bottom, var(--teal), rgba(155, 185, 187, 0.25));
+    transform: scaleY(0);
+    transform-origin: top center;
+  }
+
+  .section.is-revealed .roadmap-node--next::after {
+    transform: scaleY(1);
+  }
+}
+
 /* ---------- 07 close ---------- */
 
 .section-close {
   padding: 7rem 0 8rem;
   text-align: center;
-}
-
-.close-index {
-  margin: 0 0 3.5rem;
 }
 
 .close-inner h2 {
@@ -1067,6 +1589,12 @@ code {
 }
 
 /* ---------- responsive ---------- */
+
+@media (max-width: 1200px) {
+  .rule-prompt {
+    min-height: 6.4em; /* 4 lines: cards are narrower here */
+  }
+}
 
 @media (max-width: 1100px) {
   .rule-grid {
@@ -1176,9 +1704,6 @@ code {
     padding: 4.5rem 0 5.5rem;
   }
 
-  .close-index {
-    margin-bottom: 2rem;
-  }
 }
 
 @media (max-width: 720px) {
@@ -1208,14 +1733,18 @@ code {
     font-size: 2.15rem;
   }
 
-  .setup-steps li {
+  .run-steps > li {
     padding-left: 0;
   }
 
-  .setup-steps li::before {
+  .run-steps > li::before {
     position: static;
     display: block;
     margin-bottom: 0.5rem;
+  }
+
+  .walkthrough-action {
+    margin-left: 0;
   }
 
   .demo-panel {
@@ -1231,6 +1760,45 @@ code {
   .void-scan,
   .ascii-field::after {
     animation: none;
+  }
+
+  .ascii-vault {
+    animation: none;
+    will-change: auto;
+  }
+
+  /* Panes swap instantly: no blur ramp, no seam sweep, no scramble. */
+  .rule-face {
+    transition: none;
+    filter: none;
+  }
+
+  .rule-card.is-open .rule-face--agent,
+  .rule-card:hover .rule-face--agent {
+    filter: none;
+  }
+
+  .rule-card.is-open .rule-face--owner,
+  .rule-card:hover .rule-face--owner {
+    filter: none;
+  }
+
+
+  /* No flashing under reduced motion: hold a static colour instead so the
+     decision is still conveyed. */
+  .ascii-field.is-paid .ascii-vault .bolt,
+  .ascii-field.is-declined .ascii-vault .bolt {
+    animation: none;
+  }
+
+  .ascii-field.is-declined .ascii-vault .bolt {
+    color: var(--red);
+  }
+
+  .monitor-decline-dot {
+    animation: none;
+    opacity: 1;
+    text-shadow: none;
   }
 
   .btn,
@@ -1253,9 +1821,9 @@ code {
     transition: none;
   }
 
-  .owner-reveal {
-    filter: none;
+  .monitor-block {
     opacity: 1;
+    transform: none;
     transition: none;
   }
 
@@ -1264,4 +1832,19 @@ code {
     transform: none;
     transition: none;
   }
+
+  .roadmap-node,
+  .section.is-revealed .roadmap-node {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .roadmap-node--next::after,
+  .section.is-revealed .roadmap-node--next::after {
+    transform: none;
+    transition: none;
+  }
+}
+
 }
