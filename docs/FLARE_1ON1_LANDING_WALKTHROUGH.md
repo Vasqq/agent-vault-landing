@@ -36,7 +36,7 @@ I put four controls behind the boundary: a Vendor allowlist, rolling budget, max
 
 [Point back to the rolling-budget result, then scroll through "Watch the demo."]
 
-In my Coston2 run, three payments of 0.10 USDT0 settled. A fourth would have taken spending to 0.40, above the Owner's 0.35 rolling budget, so it was declined before settlement. The Owner then paused spending and withdrew the remaining 0.70. This was simulated TEE mode. The settlement and policy path were verified, but host confidentiality, signing-key isolation, and hardware attestation did not hold. Those properties require REAL Confidential Space.
+In my Coston2 run, three payments of 0.10 USDT0 settled. A fourth would have taken spending to 0.40, above the Owner's 0.35 rolling budget, so it was declined before settlement. The Owner then paused spending and withdrew the remaining 0.70. I used simulated TEE mode in this run. The settlement path and policy checks were verified, but host confidentiality, signing-key isolation, and hardware attestation did not hold. Those properties require REAL Confidential Space.
 
 ## Self-host and build summary
 
