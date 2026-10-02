@@ -1,0 +1,253 @@
+# Visible text of index.html before the Aerarium revamp. Do not edit.
+AgentVault — the authority layer between AI agents and your money
+Skip to content
+How it works
+Rules
+Demo
+Self-host
+GitHub
+Summer Signal · Flare Confidential Compute Track
+The authority layer between
+AI agents and your money.
+AgentVault is the spending-authority layer for standard x402 on Flare. Agents pay autonomously from your Vault, without the private key ever entering the agent runtime.
+Self-host AgentVault
+Watch the demo
+Private
+Verifiable
+Non-custodial
+Agent
+task prompt
+Check the data feed at http://localhost:3402/api/premium-data. Make four fetch attempts to this exact URL, one after another, then tell me what changed between the successful snapshots and whether any attempt failed.
+/api/premium-data
+0.10
+PAID
+DECLINED
+Owner
+agentvault monitor
+attempt_id: a824f4eae4c8…8ce6d0c52e0
+instruction_id: 0x0d8c126529…75cc6786f
+envelope:
+VERIFIED
+signer=0x5000…0510
+rule fired: budget-window
+amount: 0.10 USDT0
+Three payments go through. The fourth is stopped by the Owner's private budget.
+Four private policies. Four distinct declines.
+One standard x402 payment flow.
+Vendor not approved
+Budget limit
+Payment too large
+Rate limit
+01 / Problem
+The layer x402 doesn't define
+Handing an AI a private key turns prompt injection, tool misuse, loops, and replay into financial risk. AgentVault is built for developers and small teams who want their agents to pay for data, APIs, and tools without taking on that risk.
+AgentVault keeps the Agent blind to policy details. If prompt injection or a bug drives bad behavior, the Agent cannot inspect the limits and adapt around them. The agent knows only whether each payment succeeded or was declined.
+x402
+standardizes how an API requests and settles a payment. It does not decide where the Agent's spending authority lives, who enforces the rules, or whether those rules stay private.
+AgentVault uses the standard x402 exact payment flow with
+EIP-3009
+on Coston2. The Owner can pause spending or withdraw the remaining funds at any time, even if the enclave and Gateway are offline.
+02 / Mechanism
+How AgentVault works
+Owner funds the Vault
+Deposit USDT0 into your own non-custodial
+AgentVault
+contract, which pays via
+EIP-1271
+contract signature verification.
+Owner sets four private rules
+Maximum payment, rolling budget window, Vendor allowlist, and rate limit. The policy stays private to the Owner and the registered machine.
+Agent requests, never signs
+The Agent uses a revocable Credential instead of a private key and sends an encrypted request through the Owner-run Gateway. It never signs the payment itself.
+FCC evaluates privately
+A registered
+Flare Confidential Compute
+machine checks the request against the policy. If it passes, the machine signs a standard x402 payment authorization using
+.
+Vault verifies, then x402 settles
+The Vault pays as an EIP-1271 contract signer after independently verifying the registered machine and the payment terms on-chain.
+03 / Rules
+Private policy in action
+The rules behind every payment
+Hover or tap a card to switch from the Agent's view to the Owner's.
+Rule 01
+Vendor allowlist
+Task:
+“Pay a data provider that isn't on the Owner's approved list.”
+Owner view
+The payment was declined because this data provider is not on the Owner's approved vendor allowlist.
+Agent view
+Rule 02
+Rolling budget window
+“Fetch the same feed four times in a row, $0.10 each.”
+3× PAID, then DECLINED
+3× AUTHORIZED, then DECLINED
+The fourth $0.10 payment would push hourly spend to $0.40, above the $0.35 rolling budget.
+Rule 03
+Maximum payment
+“Buy a report priced at $0.50.”
+The $0.50 report was declined because it exceeds the $0.15 limit for any single payment.
+Rule 04
+“Fetch the feed five times in immediate succession, $0.10 each.”
+4× PAID, then DECLINED
+4× AUTHORIZED, then DECLINED
+The fifth $0.10 payment was declined because the policy allows only four payments per hour.
+04 / Record
+Follow the README from setup to proof. The Owner funds the Vault, sets a private payment policy, and starts the Owner monitor; the Agent then makes real payment attempts against all four rules. Payments that fit the policy go through. When one is declined, the Agent sees only the outcome while the Owner monitor verifies and decrypts the private reason.
+Watch the demo on YouTube
+05 / Run
+Run AgentVault to see the boundary work in your own environment: an Agent can make approved purchases without receiving a private key, while you keep the policy and can stop spending or withdraw funds.
+The walkthrough deploys your instance, then drives four policy rules against standard x402 endpoints. The Agent sees only whether a payment went through; the Owner monitor verifies the result and shows the private reason for a decline. Together, the successful payments and stopped requests show the settlement path and policy checks working end to end.
+Prerequisites
+Install these before cloning AgentVault.
+Docker
+Go 1.25.1+
+Foundry 1.3.2+
+Node.js 22+
+Git
+curl
+jq
+ngrok
+Codex or Claude
+Have a Coston2 wallet funded with C2FLR for gas.
+Get C2FLR from the Coston2 faucet.
+Setup
+Use two terminal windows:
+Terminal 1: Owner
+runs steps 1 through 8 and keeps the Owner monitor open. Open
+Terminal 2: Agent
+only for step 9, in the same
+agent-vault
+checkout. During the walkthrough, submit tasks in Terminal 2 and watch verified policy results in Terminal 1.
+Clone and install
+git clone --recurse-submodules https://github.com/vasqq/agent-vault.git && cd agent-vault && source ./scripts/setup.sh
+Start in Terminal 1 (Owner).
+setup.sh
+installs the contract toolchain, x402 reference, and AgentVault CLI, then updates this shell’s
+PATH
+Configure Coston2
+./scripts/use-chain.sh coston2 go
+This creates the root
+.env
+and configures Coston2 for AgentVault.
+Open the new
+in the repository root and find
+DEPLOYMENT_PRIVATE_KEY=
+Paste the Owner wallet’s private key after
+=
+, then save the file.
+Do not export, source, or commit this key, and do not reuse it for any service.
+Copy the wallet’s public address and fund it with C2FLR from the
+Coston2 faucet
+. A fresh run deploys three contracts and registers a TEE machine.
+Run preflight
+agentvault up --check --mcp-client codex
+agentvault up --check --mcp-client claude
+This checks that your system is ready to run AgentVault and that all prerequisites are met.
+Stand up your instance
+agentvault up --mcp-client codex
+agentvault up --mcp-client claude
+This deploys your own
+SettlementUSDT0
+,
+, and
+X402Facilitator
+; starts the reference server, Gateway, and enclave; registers the machine; and writes
+~/.agentvault/instance.json
+Wait a few minutes after completion for the registration quarantine.
+Fund your Vault
+agentvault fund 1.00
+This deposits 1.00 test USDT0 into AgentVault.
+Mint a Credential
+agentvault credential mint
+The command prints two values. Save them somewhere secure:
+Credential:
+64 lowercase hex characters with no
+0x
+prefix. Paste it into the Agent launcher’s hidden prompt in step 9.
+Policy digest:
+followed by 64 lowercase hex characters. Paste it into
+--credential-digest
+in step 7 and again in the Phase B policy update.
+Set your private policy
+agentvault policy set \ --max 0.15 \ --budget 0.35 \ --seconds 3600 \ --rate 4 \ --vendor 0x2222222222222222222222222222222222222222 \ --credential-digest '<paste the Policy digest value here>'
+This policy allows:
+maximum payment (
+--max 0.15
+): up to 0.15 USD per payment
+rolling budget window (
+--budget 0.35
+--seconds 3600
+): up to 0.35 USD during any one-hour window
+Vendor allowlist (
+--vendor
+): payments only to the listed address
+rate limit (
+--rate 4
+): up to four approved payments during that same one-hour window
+Start the Owner view
+./scripts/agentvault-vendors.sh --wait-ready
+Wait for
+Second vendor ready: http://localhost:3403 (token/facilitator/payee identity verified)
+. The Vendor stays running in the background.
+Leave Terminal 1 open with the Owner monitor running.
+Start your Agent
+agentvault agent start --client codex
+agentvault agent start --client claude
+Open Terminal 2 in the same checkout. Do not source
+or start the coding client directly. The launcher configures MCP and opens a hidden prompt; paste the Credential from step 6, not the Policy digest. Leave Terminal 2 open after the coding agent starts.
+Demo walkthrough
+Keep both terminals open side by side. Paste each task into Terminal 2 (Agent), one at a time, in this exact order. Watch Terminal 1 (Owner) for the matching result. The Agent sees only its task and whether it succeeded or was declined. Both terminals show the same public
+attempt_id
+, but only the Owner monitor shows why a payment was declined.
+Phase A policy
+·
+max 0.15
+budget 0.35
+seconds 3600
+rate 4
+vendor-allowlist
+A data provider is available at http://localhost:3403/api/premium-data. Fetch today's snapshot from it and summarize what's there. Use AgentVault to discover the public payment terms for this exact URL. I authorize AgentVault to make the one payment this task requests at that discovered public price and to that discovered public payee.
+Use this task to request a payment from a different Vendor than the one in the policy.
+Expected result:
+The Agent sees a decline. The Owner monitor shows that the payee is not on the allowlist.
+budget-window
+Check the data feed at http://localhost:3402/api/premium-data. Make four fetch attempts to this exact URL, one after another. Complete all four attempts even if the data does not change, then tell me what changed between the successful snapshots and whether any attempt failed. Use AgentVault to discover the public payment terms for this exact URL. I authorize AgentVault to make every payment this task requests at that discovered public price and to that discovered public payee, including all repeated payments.
+Use this task to make four payment attempts against the approved Vendor.
+Each fetch costs 0.10 USDT0. The first three payments go through; the fourth would take total spend to 0.40 USDT0, above the 0.35 USDT0 budget. The Agent sees a decline, while the Owner monitor shows the budget-window reason.
+To test the remaining rules on their own, change only the budget. Press Ctrl-C in Terminal 1 to stop
+, then run this update.
+agentvault policy set \ --max 0.15 \ --budget 0.50 \ --seconds 3600 \ --rate 4 \ --vendor 0x2222222222222222222222222222222222222222 \ --credential-digest '<paste the Policy digest value here>'
+Restart only the Owner monitor in Terminal 1.
+Phase B policy
+budget 0.50
+max-per-payment
+Fetch and summarize the report at http://localhost:3402/api/report. Use AgentVault to discover the public payment terms for this exact URL. I authorize AgentVault to make the one payment this task requests at that discovered public price and to that discovered public payee.
+Use this task to request the report that exceeds the per-payment limit.
+The report costs 0.50 USDT0, which is above the 0.15 USDT0 per-payment limit. The request is declined before settlement.
+rate-limit
+Pull the data feed at http://localhost:3402/api/premium-data. Make five fetch attempts to this exact URL in immediate succession, with no pause between them. Complete all five attempts even if the data does not change, then tell me what changed between the successful pulls and whether any attempt failed. Use AgentVault to discover the public payment terms for this exact URL. I authorize AgentVault to make every payment this task requests at that discovered public price and to that discovered public payee, including all repeated payments.
+Use this task to make five immediate payment attempts.
+With the new 0.50 USDT0 budget, the first four 0.10 USDT0 payments are allowed. The fifth request is declined because the policy allows only four requests in the one-hour window.
+Full README quickstart
+View source on GitHub
+06 / Delta
+Built during Flare Summer Signal
+The Owner keeps the funds in an AgentVault contract, sets a private policy, and can pause spending or withdraw funds at any time.
+The Agent gets a Credential instead of a payment-signing key. It can request a payment but cannot sign or send a transaction, and learns only whether the request succeeded or was declined.
+A registered Flare FCC machine checks the private vendor allowlist, maximum payment, rolling budget window, and rate limit before it signs an approved EIP-3009 authorization.
+The Vault pays through standard x402 as an EIP-1271 contract signer, after it verifies the registered machine and the exact payment terms on-chain.
+07 / Roadmap
+What's next
+AgentVault is self-hosted today. Next comes a hosted option and a small fee on approved payments.
+01 / Hosting
+Hosted AgentVault
+Teams would connect an agent to a hosted AgentVault instance instead of deploying and operating the full stack themselves. They could set spending rules from a web app. Running your own instance stays supported.
+02 / Pricing
+A fee on approved payments
+Charge a small, clear fee only on payments AgentVault approves. Show it up front and price it in line with comparable payment infrastructure.
+Autonomy for the agent. Control for the Owner.
+Built by
+@itzbankotez
+github.com/vasqq/agent-vault
+AgentVault · Flare Confidential Compute Track

@@ -76,42 +76,8 @@
   var heroStage = document.getElementById("hero-stage");
   var heroDots = document.getElementById("hero-dots");
   var heroStageCaption = document.getElementById("hero-stage-caption");
-  var mobileTabs = document.getElementById("mobile-pane-tabs");
-  var asciiField = document.querySelector(".ascii-field");
   if (!heroStage || !heroDots) {
     return;
-  }
-
-  // Mirror each policy decision on the vault's locking-bolt ring.
-  var vaultTimer = null;
-  var DECLINE_MS = 3100; // matches the bolt-decline keyframe duration
-
-  function setVaultState(state) {
-    if (!asciiField) {
-      return;
-    }
-    if (vaultTimer) {
-      window.clearTimeout(vaultTimer);
-      vaultTimer = null;
-    }
-    asciiField.classList.remove("is-paid", "is-declined");
-    if (!state) {
-      return;
-    }
-    // Force a reflow so repeating the same state replays the pulse
-    // instead of the class re-add being a no-op.
-    void asciiField.offsetWidth;
-    asciiField.classList.add("is-" + state);
-
-    // A decline halts the door and flashes red. Once the flash finishes,
-    // release it so the vault starts turning again instead of sitting dead
-    // until the next scenario. Reduced motion keeps the static red.
-    if (state === "declined" && !reducedMotion) {
-      vaultTimer = window.setTimeout(function () {
-        asciiField.classList.remove("is-declined");
-        vaultTimer = null;
-      }, DECLINE_MS);
-    }
   }
 
   var current = 0;
@@ -128,52 +94,43 @@
       btn.setAttribute("aria-label", "Show " + scenario.label + " scenario");
       btn.setAttribute("aria-pressed", index === 0 ? "true" : "false");
       btn.addEventListener("click", function () {
-        goTo(index, true);
+        goTo(index);
       });
       heroDots.appendChild(btn);
     });
   }
 
-  function buildMobileTabs() {
-    if (!mobileTabs) {
-      return;
-    }
-    mobileTabs.innerHTML = "";
-    ["Agent view", "Owner view"].forEach(function (label, index) {
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "pane-tab" + (index === 0 ? " is-active" : "");
-      btn.textContent = label;
-      btn.setAttribute("aria-pressed", index === 0 ? "true" : "false");
-      btn.addEventListener("click", function () {
-        mobileTabs.querySelectorAll(".pane-tab").forEach(function (el, i) {
-          el.classList.toggle("is-active", i === index);
-          el.setAttribute("aria-pressed", i === index ? "true" : "false");
-        });
-        heroStage.classList.toggle("show-owner", index === 1);
-      });
-      mobileTabs.appendChild(btn);
-    });
-  }
+  // Header labels are separate spans so the separator stays decorative.
+  var BAR_SEP = '<span class="terminal-bar-sep" aria-hidden="true">·</span>';
 
-  function renderScenarioShell(scenario) {
+  function renderScenarioShell() {
     heroStage.innerHTML =
       '<div class="terminal-grid">' +
       '<article class="terminal terminal-agent" aria-label="Agent view">' +
-      '<header class="terminal-bar"><span>Agent</span></header>' +
+      '<header class="terminal-bar"><span>Agent</span>' + BAR_SEP + "<span>task prompt</span></header>" +
       '<div class="terminal-body">' +
-      '<p class="terminal-prompt-label">task prompt</p>' +
       '<p class="terminal-prompt" id="agent-prompt"></p>' +
       '<div class="terminal-divider"></div>' +
       '<p class="terminal-prompt-label">request_payment</p>' +
       '<ol class="terminal-rows" id="agent-rows"></ol>' +
       "</div></article>" +
       '<article class="terminal terminal-owner" aria-label="Owner view">' +
-      '<header class="terminal-bar"><span>Owner</span></header>' +
+      '<header class="terminal-bar"><span>Owner</span>' + BAR_SEP + "<span>agentvault monitor</span></header>" +
       '<div class="terminal-body">' +
-      '<p class="terminal-prompt-label">agentvault monitor</p>' +
       '<div class="monitor-block" id="owner-monitor" aria-live="polite"></div>' +
+      // Shown by CSS once the monitor block becomes visible after the decline.
+      '<div class="monitor-seal" aria-hidden="true">' +
+      '<span class="monitor-seal-word">SPECTAVIT</span><span class="monitor-seal-sub">FCC · 114</span>' +
+      "</div>" +
       "</div></article></div>";
+  }
+
+  function monitorLine(key, value, extraClass) {
+    return (
+      '<p class="monitor-line' + (extraClass ? " " + extraClass : "") + '">' +
+      '<span class="monitor-key">' + key + "</span> " +
+      '<span class="monitor-value">' + value + "</span></p>"
+    );
   }
 
   function renderOwnerMonitor(el, scenario) {
@@ -182,11 +139,11 @@
     }
     el.innerHTML =
       '<p class="monitor-status"><span class="monitor-decline-dot" aria-hidden="true">●</span> DECLINED</p>' +
-      '<p class="monitor-line">attempt_id:     ' + scenario.attemptID + "</p>" +
-      '<p class="monitor-line">instruction_id: ' + scenario.instructionID + "</p>" +
-      '<p class="monitor-line">envelope: <strong>VERIFIED</strong> signer=0x5000…0510</p>' +
-      '<p class="monitor-line monitor-rule">rule fired: ' + scenario.ownerRule + "</p>" +
-      '<p class="monitor-line">amount: ' + scenario.amount + "</p>";
+      monitorLine("attempt_id:", scenario.attemptID) +
+      monitorLine("instruction_id:", scenario.instructionID) +
+      monitorLine("envelope:", "<strong>VERIFIED</strong> signer=0x5000…0510") +
+      monitorLine("rule fired:", scenario.ownerRule, "monitor-rule") +
+      monitorLine("amount:", scenario.amount);
     el.classList.add("is-visible");
   }
 
@@ -224,6 +181,22 @@
     step();
   }
 
+  function buildRow(row, visible) {
+    var li = document.createElement("li");
+    li.className = "terminal-row terminal-row--" + row.status + (visible ? " is-visible" : "");
+    li.innerHTML =
+      '<span class="terminal-row-endpoint">' +
+      row.endpoint +
+      "</span>" +
+      '<span class="terminal-row-amount">' +
+      row.amount +
+      "</span>" +
+      '<span class="terminal-row-status">' +
+      (row.status === "paid" ? "PAID" : "DECLINED") +
+      "</span>";
+    return li;
+  }
+
   function revealRows(rowsEl, rows, token, done) {
     if (!rowsEl) {
       done();
@@ -239,46 +212,18 @@
         done();
         return;
       }
-      var row = rows[index];
-      var li = document.createElement("li");
-      li.className = "terminal-row terminal-row--" + row.status;
-      li.innerHTML =
-        '<span class="terminal-row-endpoint">' +
-        row.endpoint +
-        "</span>" +
-        '<span class="terminal-row-amount">' +
-        row.amount +
-        "</span>" +
-        '<span class="terminal-row-status">' +
-        (row.status === "paid" ? "PAID" : "DECLINED") +
-        "</span>";
+      var li = buildRow(rows[index], false);
       rowsEl.appendChild(li);
       window.requestAnimationFrame(function () {
         li.classList.add("is-visible");
       });
-      setVaultState(row.status === "paid" ? "paid" : "declined");
       index += 1;
       window.setTimeout(nextRow, rowDelayMs);
     }
     if (reducedMotion) {
       rows.forEach(function (row) {
-        var li = document.createElement("li");
-        li.className = "terminal-row terminal-row--" + row.status + " is-visible";
-        li.innerHTML =
-          '<span class="terminal-row-endpoint">' +
-          row.endpoint +
-          "</span>" +
-          '<span class="terminal-row-amount">' +
-          row.amount +
-          "</span>" +
-          '<span class="terminal-row-status">' +
-          (row.status === "paid" ? "PAID" : "DECLINED") +
-          "</span>";
-        rowsEl.appendChild(li);
+        rowsEl.appendChild(buildRow(row, true));
       });
-      if (rows.length) {
-        setVaultState(rows[rows.length - 1].status === "paid" ? "paid" : "declined");
-      }
       done();
       return;
     }
@@ -289,9 +234,8 @@
     animToken += 1;
     var token = animToken;
     var scenario = SCENARIOS[index];
-    renderScenarioShell(scenario);
+    renderScenarioShell();
     setDots(index);
-    setVaultState(null);
     if (heroStageCaption) {
       heroStageCaption.textContent = scenario.caption;
     }
@@ -326,22 +270,17 @@
       return;
     }
     timer = window.setTimeout(function () {
-      goTo((current + 1) % SCENARIOS.length, false);
+      goTo((current + 1) % SCENARIOS.length);
     }, cycleMs);
   }
 
-  function goTo(index, userInitiated) {
+  function goTo(index) {
     current = index;
     playScenario(index);
-    if (userInitiated) {
-      scheduleNext();
-    } else {
-      scheduleNext();
-    }
+    scheduleNext();
   }
 
   buildDots();
-  buildMobileTabs();
   playScenario(0);
   scheduleNext();
 
@@ -392,170 +331,257 @@
   }
 })();
 
-/* Rules section: decrypt transition between the Agent's blind view and the
-   Owner's. The whole Owner pane arrives as ciphertext and resolves top to
-   bottom, with the text transformation itself carrying the reveal. */
+/* Rules: four tabs, one diptych panel each. All four panels are in the HTML;
+   this only toggles `hidden`. Arrow keys move and select (automatic
+   activation), with a roving tabindex so Tab lands on the selected rule. */
 (function () {
   "use strict";
 
-  var cards = document.querySelectorAll(".rule-card");
-  if (!cards.length) {
+  var list = document.querySelector('.rule-tabs[role="tablist"]');
+  if (!list) {
+    return;
+  }
+  var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+
+  function select(index, focus) {
+    tabs.forEach(function (tab, i) {
+      var on = i === index;
+      var panel = document.getElementById(tab.getAttribute("aria-controls"));
+      tab.setAttribute("aria-selected", on ? "true" : "false");
+      tab.setAttribute("tabindex", on ? "0" : "-1");
+      if (panel) {
+        panel.hidden = !on;
+      }
+    });
+    if (focus) {
+      tabs[index].focus();
+    }
+  }
+
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener("click", function () {
+      select(i, false);
+    });
+  });
+
+  list.addEventListener("keydown", function (event) {
+    var current = tabs.indexOf(document.activeElement);
+    if (current < 0) {
+      return;
+    }
+    var next = null;
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      next = (current + 1) % tabs.length;
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      next = (current - 1 + tabs.length) % tabs.length;
+    } else if (event.key === "Home") {
+      next = 0;
+    } else if (event.key === "End") {
+      next = tabs.length - 1;
+    }
+    if (next !== null) {
+      event.preventDefault();
+      select(next, true);
+    }
+  });
+})();
+
+/* Header menu below 768px. The nav is always in the DOM; the button only
+   decides whether it is shown on small screens. */
+(function () {
+  "use strict";
+
+  var toggle = document.querySelector(".menu-toggle");
+  var header = document.querySelector(".site-header");
+  var nav = toggle && document.getElementById(toggle.getAttribute("aria-controls"));
+  if (!toggle || !header || !nav) {
     return;
   }
 
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // The incoming pane is visibility:hidden until the fade completes, and a
-  // hidden element cannot take focus, so the handoff waits for the swap.
-  var SWAP_MS = reduce ? 0 : 320;
-  // No positional stagger: a top-to-bottom delay makes the boundary between
-  // resolved and unresolved text read as a moving line. Each node gets a small
-  // random offset instead, and characters within it resolve in random order.
-  var JITTER_MS = 170;
-  var RESOLVE_MS = 880;
-  var GLYPHS = "0123456789abcdef0123456789ABCDEF#$%&*+=?@^~";
-
-  // Originals are captured once per pane. Without this, re-opening mid-flight
-  // would latch ciphertext as the new "plaintext".
-  var store = new WeakMap();
-
-  function textNodes(root) {
-    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
-    var out = [];
-    var node = walker.nextNode();
-    while (node) {
-      if (node.nodeValue && node.nodeValue.trim().length) {
-        out.push(node);
-      }
-      node = walker.nextNode();
-    }
-    return out;
+  function setOpen(open) {
+    header.classList.toggle("is-menu-open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
   }
 
-  function cipher(text, thresholds, p) {
-    if (p >= 1) {
-      return text;
-    }
-    var out = "";
-    for (var i = 0; i < text.length; i += 1) {
-      var ch = text.charAt(i);
-      // Each character has its own reveal point, so plaintext surfaces all
-      // over the line at once. Spacing is preserved so nothing reflows.
-      if (ch === " " || ch === "\n" || (p > 0 && thresholds[i] < p)) {
-        out += ch;
-      } else {
-        out += GLYPHS.charAt(Math.floor(Math.random() * GLYPHS.length));
-      }
-    }
-    return out;
-  }
+  toggle.addEventListener("click", function () {
+    setOpen(toggle.getAttribute("aria-expanded") !== "true");
+  });
 
-  function decrypt(pane) {
-    if (reduce || !pane) {
+  nav.addEventListener("click", function (event) {
+    if (event.target.closest("a")) {
+      setOpen(false);
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (toggle.getAttribute("aria-expanded") !== "true") {
       return;
     }
-    var state = store.get(pane);
-    if (state) {
-      if (state.raf) {
-        window.cancelAnimationFrame(state.raf);
-      }
-      // Restore plaintext before measuring so positions are never taken
-      // from a half-scrambled pane.
-      state.items.forEach(function (it) {
-        it.node.nodeValue = it.final;
-      });
-    } else {
-      state = { items: null, raf: 0 };
-      store.set(pane, state);
+    if (event.key === "Escape") {
+      setOpen(false);
+      toggle.focus();
+      return;
     }
-
-    state.items = textNodes(pane).map(function (node) {
-      var final = node.nodeValue;
-      var thresholds = new Array(final.length);
-      for (var i = 0; i < final.length; i += 1) {
-        thresholds[i] = Math.random();
+    // Keep Tab inside the open menu: the button plus its five links.
+    if (event.key === "Tab") {
+      var items = [toggle].concat(Array.prototype.slice.call(nav.querySelectorAll("a")));
+      var first = items[0];
+      var last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      } else if (items.indexOf(document.activeElement) < 0) {
+        event.preventDefault();
+        first.focus();
       }
-      return {
-        node: node,
-        final: final,
-        thresholds: thresholds,
-        delay: Math.random() * JITTER_MS,
-      };
-    });
-
-    var items = state.items;
-    items.forEach(function (it) {
-      it.node.nodeValue = cipher(it.final, it.thresholds, 0);
-    });
-
-    var started = null;
-    function tick(now) {
-      if (started === null) {
-        started = now;
-      }
-      var t = now - started;
-      var done = true;
-      for (var i = 0; i < items.length; i += 1) {
-        var it = items[i];
-        var p = (t - it.delay) / RESOLVE_MS;
-        if (p < 1) {
-          done = false;
-        }
-        it.node.nodeValue = cipher(it.final, it.thresholds, p);
-      }
-      if (done) {
-        state.raf = 0;
-        return;
-      }
-      state.raf = window.requestAnimationFrame(tick);
     }
-    state.raf = window.requestAnimationFrame(tick);
+  });
+
+  // Growing past the breakpoint shows the nav inline, so drop the open state.
+  var wide = window.matchMedia("(min-width: 768px)");
+  var onWide = function (mq) {
+    if (mq.matches) {
+      setOpen(false);
+    }
+  };
+  if (wide.addEventListener) {
+    wide.addEventListener("change", onWide);
+  } else if (wide.addListener) {
+    wide.addListener(onWide);
+  }
+})();
+
+/* Pre-rendered ASCII figures (spec section 5). Each [data-ascii] box already
+   reserves its size in CSS, so filling it never shifts layout. The art is
+   decorative: if a fetch fails the empty box simply stays empty. */
+(function () {
+  "use strict";
+
+  var boxes = document.querySelectorAll("[data-ascii]");
+  if (!boxes.length || !window.fetch) {
+    return;
   }
 
-  Array.prototype.forEach.call(cards, function (card) {
-    var turns = card.querySelectorAll(".rule-turn");
-    var owner = card.querySelector(".rule-face--owner");
-    var armed = true;
-
-    function run() {
-      if (!armed) {
-        return;
-      }
-      armed = false;
-      decrypt(owner);
-      window.setTimeout(function () {
-        armed = true;
-      }, JITTER_MS + RESOLVE_MS);
+  function fill(box) {
+    if (box.getAttribute("data-ascii-state")) {
+      return;
     }
-
-    // Pointer devices open via CSS :hover; mirror the decrypt here.
-    card.addEventListener("mouseenter", run);
-
-    Array.prototype.forEach.call(turns, function (btn) {
-      btn.addEventListener("click", function () {
-        var open = card.classList.toggle("is-open");
-
-        Array.prototype.forEach.call(turns, function (other) {
-          other.setAttribute("aria-expanded", open ? "true" : "false");
-        });
-
-        if (open) {
-          run();
-        }
-
-        var next = card.querySelector(
-          (open ? ".rule-face--owner" : ".rule-face--agent") + " .rule-turn"
-        );
-        if (!next) {
-          return;
-        }
-        window.setTimeout(function () {
-          try {
-            next.focus({ preventScroll: true });
-          } catch (e) {
-            next.focus();
+    box.setAttribute("data-ascii-state", "loading");
+    // Relative URL so it also works under /agent-vault-landing/ on Pages.
+    window
+      .fetch("assets/ascii/" + box.getAttribute("data-ascii") + ".json")
+      .then(function (res) {
+        return res.ok ? res.json() : Promise.reject(res.status);
+      })
+      .then(function (data) {
+        ["dg", "lo", "hi"].forEach(function (layer) {
+          var pre = box.querySelector(".ascii-layer--" + layer);
+          if (pre && data.layers && data.layers[layer]) {
+            pre.textContent = data.layers[layer];
           }
-        }, SWAP_MS);
+        });
+        box.setAttribute("data-ascii-state", "loaded");
+      })
+      .catch(function () {
+        box.setAttribute("data-ascii-state", "failed");
       });
-    });
+  }
+
+  var lazy = [];
+  Array.prototype.forEach.call(boxes, function (box) {
+    if (box.hasAttribute("data-ascii-eager")) {
+      fill(box);
+    } else {
+      lazy.push(box);
+    }
+  });
+
+  if (!("IntersectionObserver" in window)) {
+    lazy.forEach(fill);
+    return;
+  }
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          observer.unobserve(entry.target);
+          fill(entry.target);
+        }
+      });
+    },
+    { rootMargin: "600px 0px" }
+  );
+  lazy.forEach(function (box) {
+    observer.observe(box);
+  });
+})();
+
+/* Floating glyphs: single hex, 0 and 1 characters rising off the dissolving
+   stone (spec section 6). The motion itself is CSS (av-float); this only
+   scatters the spans. A fixed seed keeps the scatter stable between loads. */
+(function () {
+  "use strict";
+
+  var fields = document.querySelectorAll("[data-floaters]");
+  if (!fields.length) {
+    return;
+  }
+
+  var GLYPHS = "0123456789abcdef0101";
+  var small = window.matchMedia("(max-width: 767px)").matches;
+
+  function seeded(seed) {
+    // mulberry32
+    return function () {
+      seed = (seed + 0x6d2b79f5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  Array.prototype.forEach.call(fields, function (field, index) {
+    var count = parseInt(field.getAttribute(small ? "data-floaters-mobile" : "data-floaters"), 10) || 0;
+    // Region in percent of the field box: x0 x1 y0 y1.
+    var region = (field.getAttribute("data-floaters-region") || "0 100 0 100").split(/\s+/).map(Number);
+    var rand = seeded(index + 1);
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < count; i += 1) {
+      var span = document.createElement("span");
+      span.className = "floater";
+      span.textContent = GLYPHS.charAt(Math.floor(rand() * GLYPHS.length));
+      span.style.left = (region[0] + rand() * (region[1] - region[0])).toFixed(2) + "%";
+      span.style.top = (region[2] + rand() * (region[3] - region[2])).toFixed(2) + "%";
+      span.style.fontSize = (small ? 6 + rand() : 7 + rand() * 3).toFixed(1) + "px";
+      span.style.animationDuration = (7 + rand() * 8).toFixed(1) + "s";
+      span.style.animationDelay = (-rand() * 15).toFixed(1) + "s";
+      frag.appendChild(span);
+    }
+    field.appendChild(frag);
+  });
+})();
+
+/* Off-screen pausing (spec section 6): sections out of view get .is-paused,
+   which stops every CSS animation inside them. */
+(function () {
+  "use strict";
+
+  if (!("IntersectionObserver" in window)) {
+    return;
+  }
+  var sections = document.querySelectorAll("main > section");
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        entry.target.classList.toggle("is-paused", !entry.isIntersecting);
+      });
+    },
+    { rootMargin: "100px 0px" }
+  );
+  Array.prototype.forEach.call(sections, function (section) {
+    observer.observe(section);
   });
 })();

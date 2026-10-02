@@ -1,3 +1,5 @@
+> **Superseded.** The cyber-noir aesthetic this prompt set up has been replaced by the Aerarium visual system. The source of truth for the page's look is now [`docs/revamp/REVAMP_SPEC.md`](revamp/REVAMP_SPEC.md) (path: `docs/revamp/REVAMP_SPEC.md`). Kept for history only; do not use it to brief new design work.
+
 # Claude initialization — AgentVault landing aesthetic redesign
 
 Paste this as the **first message** of a fresh Claude session. Working directory: `/Users/liampereira/Documents/Code/agent-vault-landing`.

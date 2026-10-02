@@ -5,138 +5,119 @@
   <title>AgentVault social card source</title>
   <link rel="stylesheet" href="../fonts/fonts.css">
   <style>
+    /* Aerarium tokens (docs/revamp/REVAMP_SPEC.md section 3). */
     :root {
-      --bg: #111318;
-      --panel: #1a1c22;
-      --teal: #9bb9bb;
-      --text: #dadee8;
-      --muted: #90939b;
-      --red: #b77a7a;
-      --line: rgba(155, 185, 187, 0.24);
+      --av-bg: #16130F;
+      --av-bronze: #B08D57;
+      --av-bronze-hi: #D8B67E;
+      --av-verdigris: #6E9A8C;
+      --av-digital: #5E8A7C;
+      --av-text: #E8DFCC;
+      --av-label: #7D9A8F;
+      --av-line: rgba(176,141,87,0.26);
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       width: 1200px;
       height: 630px;
-      background: var(--bg);
-      color: var(--text);
-      font-family: "Space Grotesk", sans-serif;
+      background: var(--av-bg);
       overflow: hidden;
     }
     .card {
+      position: relative;
       width: 1200px;
       height: 630px;
-      padding: 54px 58px;
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 42px;
-      background:
-        radial-gradient(circle at 10% 0%, rgba(155,185,187,.08), transparent 18rem),
-        var(--bg);
+      overflow: hidden;
+      background: var(--av-bg);
+    }
+    /* Same layered figure as the page, sized to the card height. */
+    .ascii {
+      position: absolute;
+      top: 0;
+      right: -30px;
+      width: calc(var(--cols) * 0.6em);
+      height: calc(var(--rows) * 1em);
+      font-size: 5.04px;
+    }
+    .ascii pre {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      font: 400 1em/1em "IBM Plex Mono", monospace;
+      letter-spacing: 0;
+      white-space: pre;
+    }
+    .dg { color: var(--av-digital); opacity: 0.8; }
+    .lo { color: var(--av-verdigris); }
+    .hi { color: var(--av-bronze-hi); }
+    .copy {
+      position: absolute;
+      top: 56px;
+      left: 64px;
+      bottom: 56px;
+      width: 680px;
+      display: flex;
+      flex-direction: column;
+    }
+    .wordmark {
+      margin: 0;
+      color: var(--av-bronze-hi);
+      font: 600 26px/1 "Cormorant Garamond", Georgia, serif;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
     }
     .eyebrow {
-      margin: 0 0 18px;
-      color: var(--teal);
-      font: 600 13px/1 "IBM Plex Mono", monospace;
-      letter-spacing: .14em;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: auto 0 22px;
+      color: var(--av-label);
+      font: 400 13px/1.4 "IBM Plex Mono", monospace;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 40px;
+      height: 1px;
+      background: var(--av-bronze);
     }
     h1 {
-      margin: 0 0 20px;
-      font: 700 54px/1.02 "Space Grotesk", sans-serif;
-      letter-spacing: -.035em;
-      max-width: 11ch;
+      max-width: 600px;
+      margin: 0 0 28px;
+      color: var(--av-text);
+      font: 500 74px/0.98 "Cormorant Garamond", Georgia, serif;
+      letter-spacing: -0.01em;
     }
-    .hero-kicker { color: var(--teal); }
-    .sub {
+    h1 em { color: var(--av-bronze-hi); }
+    .caps {
       margin: 0;
-      color: var(--muted);
-      font-size: 21px;
-      line-height: 1.45;
-      max-width: 24ch;
-    }
-    .receipt {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-      padding: 22px 24px;
-      font-family: "IBM Plex Mono", monospace;
-    }
-    .receipt h2 {
-      margin: 0 0 6px;
-      color: var(--teal);
-      font-size: 12px;
-      letter-spacing: .12em;
+      color: var(--av-bronze-hi);
+      font: 600 17px/1 "Cormorant Garamond", Georgia, serif;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
     }
-    .mode {
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: .04em;
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .stat {
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      padding: 12px;
-    }
-    .stat strong {
-      display: block;
-      font-size: 15px;
-      letter-spacing: .05em;
-      margin-bottom: 6px;
-    }
-    .stat span {
-      color: var(--muted);
-      font-size: 10px;
-      line-height: 1.35;
-    }
-    .stat-decline strong { color: var(--red); }
-    .foot {
-      margin: 0;
-      color: #72757d;
-      font-size: 10px;
-      line-height: 1.45;
-      font-style: italic;
+    .caps span {
+      margin: 0 0.4em;
+      color: var(--av-bronze);
+      font-size: 0.6em;
+      vertical-align: 0.28em;
     }
   </style>
 </head>
 <body>
   <div class="card">
-    <div>
-      <p class="eyebrow">Flare Summer Signal · Flare Confidential Compute Track</p>
-      <h1>
-        <span class="hero-main">Your AI agent gets a budget,</span>
-        <span class="hero-kicker">not a private key.</span>
-      </h1>
-      <p class="sub">Spending-authority layer for standard x402 on Flare. Private policy. Owner-controlled funds.</p>
+    <!-- tests/render_social_card.js fills these layers from assets/ascii/temple-hero.json. -->
+    <div class="ascii" data-ascii="temple-hero" style="--cols: 220; --rows: 125;">
+      <pre class="dg"></pre><pre class="lo"></pre><pre class="hi"></pre>
     </div>
-    <aside class="receipt">
-      <h2>Authorization receipt</h2>
-      <p class="mode">Coston2 testnet · USDT0</p>
-      <div class="stats">
-        <div class="stat">
-          <strong>3 SETTLED</strong>
-          <span>payments at 0.10 USDT0</span>
-        </div>
-        <div class="stat stat-decline">
-          <strong>4th DECLINED</strong>
-          <span>0.40 spent exceeded 0.35 budget window</span>
-        </div>
-        <div class="stat">
-          <strong>0.70 WITHDRAWN</strong>
-          <span>after Owner pause</span>
-        </div>
-      </div>
-      <p class="foot">Three 0.10 payments settled; the 4th declined above the 0.35 budget window.</p>
-    </aside>
+    <div class="copy">
+      <p class="wordmark">AgentVault</p>
+      <p class="eyebrow">Flare Summer Signal · Flare Confidential Compute Track</p>
+      <h1>The authority layer between <em>AI agents and your money.</em></h1>
+      <p class="caps">Private<span>&#9670;</span>Verifiable<span>&#9670;</span>Non-custodial</p>
+    </div>
   </div>
 </body>
 </html>

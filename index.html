@@ -18,20 +18,24 @@
   <meta name="twitter:description"
     content="The Agent uses a revocable Credential instead of a private key. A registered Flare Confidential Compute machine checks the private policy, then the Vault pays as an EIP-1271 contract signer over standard x402.">
   <meta name="twitter:image" content="https://vasqq.github.io/agent-vault-landing/assets/images/social-card.png">
+  <!-- No favicon ships yet; an empty icon stops the browser requesting a 404. -->
+  <link rel="icon" href="data:,">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-variable-subset.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/cormorant-garamond-italic-variable-subset.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/fonts/fonts.css">
-  <link rel="stylesheet" href="styles.css?v=20260818-monitor-dot">
+  <link rel="stylesheet" href="styles.css?v=20260926-aerarium-5">
 </head>
 
 <body>
-  <div class="void-scan" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="wordmark" href="#" aria-label="AgentVault">
-        <img src="assets/images/agentvault-wordmark.png" alt="AgentVault" width="945" height="106">
-      </a>
-      <nav aria-label="Primary">
+      <a class="wordmark" href="#">AgentVault</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+        <svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true" focusable="false"><path d="M0 1h18M0 6h18M0 11h18" /></svg>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
         <a href="#mechanism">How it works</a>
         <a href="#rules">Rules</a>
         <a href="#demo-video">Demo</a>
@@ -43,115 +47,83 @@
 
   <main id="main">
     <section class="hero" aria-labelledby="hero-title">
-      <div class="wrap hero-grid">
-        <div class="hero-copy">
-          <p class="eyebrow"><img class="eyebrow-flare-logo" src="assets/images/Flare_FLR_Logo_full.png" alt="Flare"><span>Summer Signal · Flare Confidential Compute Track</span></p>
-          <h1 id="hero-title">
-            <span class="hero-main">The authority layer between</span>
-            <span class="hero-kicker">AI agents and your money.</span>
-          </h1>
-          <p class="lede">
-            AgentVault is the spending-authority layer for standard x402 on Flare.
-            Agents pay autonomously from your Vault, without the private key ever entering the agent runtime.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#get-started">Self-host AgentVault</a>
-            <a class="btn btn-secondary" href="https://youtu.be/BUQQIvgCKFQ" id="demo-cta"
-              rel="noopener noreferrer" target="_blank">Watch the demo</a>
+      <div class="hero-intro">
+        <div class="hero-art" aria-hidden="true">
+          <div class="ascii" data-ascii="temple-hero" data-ascii-eager style="--cols: 220; --rows: 125;">
+            <pre class="ascii-layer ascii-layer--dg"></pre>
+            <pre class="ascii-layer ascii-layer--lo"></pre>
+            <pre class="ascii-layer ascii-layer--hi"></pre>
           </div>
-          <ul class="hero-chips" aria-label="Positioning">
-            <li>Private</li>
-            <li>Verifiable</li>
-            <li>Non-custodial</li>
-          </ul>
+          <div class="floaters" data-floaters="46" data-floaters-mobile="15" data-floaters-region="-5 40 11 87"></div>
         </div>
 
-        <div class="hero-aside">
-          <div class="ascii-field" aria-hidden="true">
-            <pre class="ascii-vault">
-
-                                 .........
-                          .:;ii11111111111iiii;:..
-                     .:;1111i;:.............::;;iii;:.
-                  .:itti:.. .:;i11ttttttt11i;;:...:;iii;.
-               .:itt;.  .;tfLCLLfftttftttttttttt1i;:..:;ii:.
-             .;tti.  :tLGCLft1ii;;;i<i class="bolt">tfti</i>;;;iii111ttt1i:..:;i;.
-           .;tt;. .1CGCftti;;::;;;i1<i class="bolt">tti:</i>;i;;;;;;i1t11111i:.:;i;.
-          :1fi. :f0Gf1i1<i class="bolt">fti</i>;i1fLLCCG<i class="bolt">L1ii</i>fLLfft11t<i class="bolt">Lf1</i>ii1111i:.:;;:.
-        .;f1: .f0Gt1i;:<i class="bolt">;iii1</i>CGCCLffft11ttffffffL<i class="bolt">0Li::</i>;iii111i::;i;.
-       .1fi. i0Gf1i;:;1f<i class="bolt">f1i</i>1ftttttttttttttttttttf<i class="bolt">1i;</i>iii;iii11i;::;;:
-      :1t; .f8L1i;:;1L00Lt11ttttttttttttttttttt1111tttt1i;iii1ii::;;:
-     .1t; .C0f11i;if00Lttttttttt111iiiiii111tttttt11tttt111t11iii;:;;.
-    .it; .C0t1<i class="bolt">tt1t</i>L8Ctttttttt1i;::;;iiiii;;;i11ttttt111ttC<i class="bolt">8Gti</i>iii;;;;;.
-    ;t;. L0tii<i class="bolt">;;i1f</i>ft1ttttt1;::1LG00GGCCCCLt1;;i1tttt111t<i class="bolt">Lfi::</i>iii;;;;;:.
-   :1i: iGtii;:<i class="bolt">;i1</i>111tttt1i:;C@@8Cti;;;;1fLLfftii11ttt1111<i class="bolt">i::</i>;iiii;;;i;.
-   ;1;..CL1i;:ifGt11tttt1;.f@@L1iiiiiii1Lf1;itft1i11ttt1111ii111ii;;iii:
-  .ii: iC1ii:;tGLt1tttt1;.C@0i:;i11tttf88t;:;i1t11i1ttt11111i1111ii:;ii;.
-  :1i: ff1ii;1fCt11tttti.f@G;:i1111fff@@fi:i11i11i11tt111111ii111ii;:ii;.
-  :i;..fti1i1fGL111ttt1;:G0t;tLLLLLGCC0L1i1fLLLLfi;ttt111111i1LCfii;:11i:
-  :i;.:t1i1<i class="bolt">fffL</i>t111ttt1:iCCt1LLCCG8Gtttt11LLLLC0fi:tft1111111<i class="bolt">fCLt</i>ii;.11i:
-  :i;.:t1i1<i class="bolt">i::;</i>1111ttt1;iffi:;;;;;111111;:;;;;i11;.fCt111111i<i class="bolt">;;;;</i>ii;.1ti:
-  :i;::11ii;:;it111ttt1iitti;iiiitLt;:;;;;iiiitC1..GCt111111;:;i1ii;.tti:
-  .;;::i1iii;i1t1111ttt1i1i111ttC8C1::;ii11ttL@0; t@f111111i:;1Ltii:.ft;.
-  .:;;:iiiiiii111111ttt1111;ittC@C1::i1i11ttC@G; i@Gt111111;:ifL1i;.iL1;
-   .;;:;iiiiii1111111111ttt1;;1LCtiitffLLLLffi..t@0t111111i:;tCfii:.fLi.
-    :;;:i;iiiit<i class="bolt">GGf</i>1111111tttt1;::;itLCCCCt:. .i0@Ct1111111<i class="bolt">11t</i>CL1i; iCt;
-    .;;;;;;ii1<i class="bolt">LCfi;</i>i111111tttffti;:::::...:if0@Gft111111i<i class="bolt">i1ttt</i>1i;.:CLi.
-     .;;;;;;ii<i class="bolt">1;:.</i>:ii1111111tttfLLLLfffLCG00GLtt111111i;:;<i class="bolt">;i;;</i>i;..CCi.
-      .;;;i;;iiiii1iiii11111111ttttfffLLffttt1111111i;::itLtii;.:CG1:
-       .;;ii;:;ii1111i;;i11111111111111111111111111;::;1LGf1i: ;GG1.
-        .:;iii:;ii11tt1t<i class="bolt">Lf1</i>ii11111111111111111ii1<i class="bolt">t1;</i>;1LCL1i;..10Ci.
-          .;iii;:;ii11t<i class="bolt">0Gt;:</i>;;;;iiii1111iii;;:::<i class="bolt">i1111</i>Lf1i;..;CGf:
-            :;iii;::;i11<i class="bolt">i;;</i>i11i;;;;;<i class="bolt">1f1;</i>:::;;i1tf<i class="bolt">1i;</i>i1i:..;LGLi.
-             .:;i11;:::;;;i1ttfftttf<i class="bolt">Lti;</i>1tffLLLLf1;;::..iLGLi.
-                :;i11i;::::;ii111ttf<i class="bolt">1i;i</i>tttt11i;;:...;tCCfi.
-                  .:;1111i;:::::::;;;;:;;;:::...:;1fCCfi:
-                     .:;i11tt11ii;;::::::;;i11tLLLf1;.
-                         ..:;i11ttttfffffffft11;:.
-                                 ..........</pre>
+        <div class="wrap">
+          <div class="hero-copy">
+            <p class="eyebrow"><img class="eyebrow-flare-logo" src="assets/images/flare-logo-eyebrow.png" alt="Flare" width="127" height="42"><span>Summer Signal · Flare Confidential Compute Track</span></p>
+            <h1 id="hero-title">
+              The authority layer between
+              <span class="hero-kicker">AI agents and your money.</span>
+            </h1>
+            <p class="lede">
+              AgentVault is the spending-authority layer for standard x402 on Flare.
+              Agents pay autonomously from your Vault, without the private key ever entering the agent runtime.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#get-started">Self-host AgentVault</a>
+              <a class="btn btn-secondary" href="https://youtu.be/BUQQIvgCKFQ" id="demo-cta"
+                rel="noopener noreferrer" target="_blank">Watch the demo</a>
+            </div>
+            <ul class="caps caps-list hero-chips" aria-label="Positioning">
+              <li>Private</li>
+              <li>Verifiable</li>
+              <li>Non-custodial</li>
+            </ul>
+            <div class="plate">
+              <p class="plate-name">AERARIUM</p>
+              <p class="plate-place">Temple of Saturn, Forum Romanum</p>
+              <p class="plate-text">The treasury of Rome sat inside this temple. Money left it only on authority.</p>
+            </div>
           </div>
+        </div>
+      </div>
 
-          <div class="hero-stage-wrap">
-            <div class="mobile-pane-tabs" id="mobile-pane-tabs" role="tablist" aria-label="Terminal pane"></div>
-            <div class="hero-stage" id="hero-stage" aria-live="polite">
-              <noscript>
-                <div class="terminal-grid terminal-grid--static">
-                  <article class="terminal terminal-agent">
-                    <header class="terminal-bar"><span>Agent</span></header>
-                    <div class="terminal-body">
-                      <p class="terminal-prompt-label">task prompt</p>
-                      <p class="terminal-prompt">Check the data feed at http://localhost:3402/api/premium-data. Make four fetch attempts to this exact URL, one after another, then tell me what changed between the successful snapshots and whether any attempt failed.</p>
-                      <div class="terminal-divider"></div>
-                      <ol class="terminal-rows">
-                        <li class="terminal-row terminal-row--paid is-visible"><span class="terminal-row-endpoint">/api/premium-data</span><span class="terminal-row-amount">0.10</span><span class="terminal-row-status">PAID</span></li>
-                        <li class="terminal-row terminal-row--paid is-visible"><span class="terminal-row-endpoint">/api/premium-data</span><span class="terminal-row-amount">0.10</span><span class="terminal-row-status">PAID</span></li>
-                        <li class="terminal-row terminal-row--paid is-visible"><span class="terminal-row-endpoint">/api/premium-data</span><span class="terminal-row-amount">0.10</span><span class="terminal-row-status">PAID</span></li>
-                        <li class="terminal-row terminal-row--declined is-visible"><span class="terminal-row-endpoint">/api/premium-data</span><span class="terminal-row-amount">0.10</span><span class="terminal-row-status">DECLINED</span></li>
-                      </ol>
-                    </div>
-                  </article>
-                  <article class="terminal terminal-owner">
-                    <header class="terminal-bar"><span>Owner</span></header>
-                    <div class="terminal-body">
-                      <p class="terminal-prompt-label">agentvault monitor</p>
-                      <div class="monitor-block is-visible">
-                        <p class="monitor-status"><span class="monitor-decline-dot" aria-hidden="true">●</span> DECLINED</p>
-                        <p class="monitor-line">attempt_id:     a824f4eae4c8…8ce6d0c52e0</p>
-                        <p class="monitor-line">instruction_id: 0x0d8c126529…75cc6786f</p>
-                        <p class="monitor-line">envelope: <strong>VERIFIED</strong> signer=0x5000…0510</p>
-                        <p class="monitor-line monitor-rule">rule fired: budget-window</p>
-                        <p class="monitor-line">amount: 0.10 USDT0</p>
-                      </div>
-                    </div>
-                  </article>
+      <div class="wrap hero-stage-wrap">
+        <div class="hero-stage" id="hero-stage" aria-live="polite">
+          <noscript>
+            <div class="terminal-grid">
+              <article class="terminal terminal-agent">
+                <header class="terminal-bar"><span>Agent</span><span class="terminal-bar-sep" aria-hidden="true">·</span><span>task prompt</span></header>
+                <div class="terminal-body">
+                  <p class="terminal-prompt">Check the data feed at http://localhost:3402/api/premium-data. Make four fetch attempts to this exact URL, one after another, then tell me what changed between the successful snapshots and whether any attempt failed.</p>
+                  <div class="terminal-divider"></div>
+                  <ol class="terminal-rows">
+                    <li class="terminal-row terminal-row--paid is-visible"><span class="terminal-row-endpoint">/api/premium-data</span><span class="terminal-row-amount">0.10</span><span class="terminal-row-status">PAID</span></li>
+                    <li class="terminal-row terminal-row--paid is-visible"><span class="terminal-row-endpoint">/api/premium-data</span><span class="terminal-row-amount">0.10</span><span class="terminal-row-status">PAID</span></li>
+                    <li class="terminal-row terminal-row--paid is-visible"><span class="terminal-row-endpoint">/api/premium-data</span><span class="terminal-row-amount">0.10</span><span class="terminal-row-status">PAID</span></li>
+                    <li class="terminal-row terminal-row--declined is-visible"><span class="terminal-row-endpoint">/api/premium-data</span><span class="terminal-row-amount">0.10</span><span class="terminal-row-status">DECLINED</span></li>
+                  </ol>
                 </div>
-              </noscript>
+              </article>
+              <article class="terminal terminal-owner">
+                <header class="terminal-bar"><span>Owner</span><span class="terminal-bar-sep" aria-hidden="true">·</span><span>agentvault monitor</span></header>
+                <div class="terminal-body">
+                  <div class="monitor-block is-visible">
+                    <p class="monitor-status"><span class="monitor-decline-dot" aria-hidden="true">●</span> DECLINED</p>
+                    <p class="monitor-line"><span class="monitor-key">attempt_id:</span> <span class="monitor-value">a824f4eae4c8…8ce6d0c52e0</span></p>
+                    <p class="monitor-line"><span class="monitor-key">instruction_id:</span> <span class="monitor-value">0x0d8c126529…75cc6786f</span></p>
+                    <p class="monitor-line"><span class="monitor-key">envelope:</span> <span class="monitor-value"><strong>VERIFIED</strong> signer=0x5000…0510</span></p>
+                    <p class="monitor-line monitor-rule"><span class="monitor-key">rule fired:</span> <span class="monitor-value">budget-window</span></p>
+                    <p class="monitor-line"><span class="monitor-key">amount:</span> <span class="monitor-value">0.10 USDT0</span></p>
+                  </div>
+                  <div class="monitor-seal" aria-hidden="true"><span class="monitor-seal-word">SPECTAVIT</span><span class="monitor-seal-sub">FCC · 114</span></div>
+                </div>
+              </article>
             </div>
-            <div class="hero-stage-foot">
-              <div class="hero-dots" id="hero-dots" role="group" aria-label="Scenario selector"></div>
-              <p class="hero-stage-caption" id="hero-stage-caption">Three payments go through. The fourth is stopped by the Owner's private budget.</p>
-            </div>
-          </div>
+          </noscript>
+        </div>
+        <div class="hero-stage-foot">
+          <div class="hero-dots" id="hero-dots" role="group" aria-label="Scenario selector"></div>
+          <p class="hero-stage-caption" id="hero-stage-caption">Three payments go through. The fourth is stopped by the Owner's private budget.</p>
         </div>
       </div>
     </section>
@@ -161,7 +133,7 @@
         <p class="proof-bar-lead">
           <strong>Four private policies. Four distinct declines.</strong> One standard x402 payment flow.
         </p>
-        <ul class="proof-bar-rail" aria-label="Policy outcomes">
+        <ul class="caps caps-list proof-bar-rail" aria-label="Policy outcomes">
           <li>Vendor not approved</li>
           <li>Budget limit</li>
           <li>Payment too large</li>
@@ -171,270 +143,449 @@
     </section>
 
     <section class="section" id="problem" aria-labelledby="problem-title" data-reveal>
-      <div class="wrap archive">
-        <p class="archive-index">01 / Problem</p>
-        <div class="archive-body">
-          <h2 id="problem-title">The layer x402 doesn't define</h2>
-          <p class="body-lead">
-            Handing an AI a private key turns prompt injection, tool misuse, loops, and replay into financial risk.
-            AgentVault is built for developers and small teams who want their agents to pay for data, APIs, and tools
-            without taking on that risk.
-          </p>
-          <div class="prose-columns">
-            <p>
-              AgentVault keeps the Agent blind to policy details. If prompt injection or a bug drives bad behavior, the
-              Agent cannot inspect the limits and adapt around them. The agent knows only whether each payment succeeded or
-              was declined.
+      <div class="wrap">
+        <header class="section-head">
+          <p class="section-numeral" aria-hidden="true">I</p>
+          <div class="section-titles">
+            <p class="section-label">Problem</p>
+            <h2 id="problem-title">The layer x402 doesn't define</h2>
+          </div>
+        </header>
+        <div class="section-body problem-grid">
+          <div class="problem-copy">
+            <p class="body-lead">
+              Handing an AI a private key turns prompt injection, tool misuse, loops, and replay into financial risk.
+              AgentVault is built for developers and small teams who want their agents to pay for data, APIs, and tools
+              without taking on that risk.
             </p>
-            <p>
-              <a href="https://docs.x402.org/introduction" rel="noopener noreferrer">x402</a>
-              standardizes how an API requests and settles a payment. It does not decide where the Agent's spending
-              authority lives, who enforces the rules, or whether those rules stay private.
-            </p>
-            <p>
-              AgentVault uses the standard x402 exact payment flow with
-              <a href="https://eips.ethereum.org/EIPS/eip-3009" rel="noopener noreferrer">EIP-3009</a> on Coston2. The
-              Owner can pause spending or withdraw the remaining funds at any time, even if the enclave and Gateway are
-              offline.
-            </p>
+            <div class="prose-columns">
+              <p>
+                AgentVault keeps the Agent blind to policy details. If prompt injection or a bug drives bad behavior, the
+                Agent cannot inspect the limits and adapt around them. The agent knows only whether each payment succeeded or
+                was declined.
+              </p>
+              <p>
+                <a href="https://docs.x402.org/introduction" rel="noopener noreferrer">x402</a>
+                standardizes how an API requests and settles a payment. It does not decide where the Agent's spending
+                authority lives, who enforces the rules, or whether those rules stay private.
+              </p>
+              <p>
+                AgentVault uses the standard x402 exact payment flow with
+                <a href="https://eips.ethereum.org/EIPS/eip-3009" rel="noopener noreferrer">EIP-3009</a> on Coston2. The
+                Owner can pause spending or withdraw the remaining funds at any time, even if the enclave and Gateway are
+                offline.
+              </p>
+            </div>
+          </div>
+          <div class="problem-art">
+            <div class="problem-figure" aria-hidden="true">
+              <div class="ascii" data-ascii="ring-key" style="--cols: 130; --rows: 66;">
+                <pre class="ascii-layer ascii-layer--dg"></pre>
+                <pre class="ascii-layer ascii-layer--lo"></pre>
+                <pre class="ascii-layer ascii-layer--hi"></pre>
+              </div>
+              <div class="floaters" data-floaters="18" data-floaters-mobile="8" data-floaters-region="-10 38 8 90"></div>
+            </div>
+            <div class="plate">
+              <p class="plate-name">CLAVIS ANULARIS</p>
+              <p class="plate-place">Roman ring-key, bronze</p>
+              <p class="plate-text">Romans wore the key to a strongbox on a finger. Whoever held the ring could open the chest.</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section section-panel" id="mechanism" aria-labelledby="mechanism-title" data-reveal>
-      <div class="wrap archive">
-        <p class="archive-index">02 / Mechanism</p>
-        <div class="archive-body">
-          <h2 id="mechanism-title">How AgentVault works</h2>
-          <div class="flow-diagram" role="img" aria-label="The Owner funds the Vault and sets the private policy on the FCC machine. The Agent sends an encrypted Credential request into the AgentVault system, where the FCC machine checks four private rules and signs x402 with EIP-3009. The Vault independently verifies with EIP-1271 and pays the Vendor through x402 settlement.">
-            <svg viewBox="0 0 920 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs>
-                <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-                  <path d="M0,0 L6,3 L0,6 Z" fill="#9bb9bb" />
-                </marker>
-              </defs>
-              <rect x="220" y="2" width="510" height="146" rx="0" fill="none" stroke="rgba(155,185,187,0.45)" stroke-dasharray="5 4" />
-              <rect x="232" y="0" width="82" height="15" fill="#0c0e12" />
-              <text x="242" y="11" fill="#7a9294" font-family="IBM Plex Mono, monospace" font-size="9">AgentVault</text>
-              <rect class="diagram-node--external" x="10" y="12" width="120" height="48" rx="0" fill="none" stroke="rgba(155,185,187,0.24)" />
-              <text x="70" y="33" fill="#c2c8ce" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">Owner</text>
-              <text x="70" y="48" fill="#747983" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">Owner funds</text>
-              <line x1="130" y1="36" x2="545" y2="36" stroke="#9bb9bb" marker-end="url(#arrow)" />
-              <text x="337" y="27" fill="#7a9294" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle">fund</text>
-              <rect class="diagram-node--internal" x="550" y="12" width="150" height="48" rx="0" fill="#10131a" stroke="rgba(155,185,187,0.6)" />
-              <text x="625" y="33" fill="#e8eaee" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">Vault</text>
-              <text x="625" y="48" fill="#8a8e96" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">EIP-1271 verify + pay</text>
-              <rect class="diagram-node--external" x="10" y="92" width="130" height="48" rx="0" fill="none" stroke="rgba(155,185,187,0.24)" />
-              <text x="75" y="113" fill="#c2c8ce" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">Agent</text>
-              <text x="75" y="128" fill="#747983" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">Credential</text>
-              <line x1="140" y1="116" x2="245" y2="116" stroke="#9bb9bb" marker-end="url(#arrow)" />
-              <text x="192" y="107" fill="#7a9294" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle">encrypted request</text>
-              <rect class="diagram-node--internal" x="250" y="92" width="150" height="48" rx="0" fill="#10131a" stroke="rgba(155,185,187,0.6)" />
-              <text x="325" y="113" fill="#e8eaee" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">FCC machine</text>
-              <text x="325" y="128" fill="#8a8e96" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">checks 4 private rules</text>
-              <polyline points="400,116 625,116 625,65" fill="none" stroke="#9bb9bb" marker-end="url(#arrow)" />
-              <text x="513" y="110" fill="#7a9294" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle">signs x402 (EIP-3009)</text>
-              <line x1="700" y1="36" x2="775" y2="36" stroke="#9bb9bb" marker-end="url(#arrow)" />
-              <text x="738" y="27" fill="#7a9294" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle">settle</text>
-              <rect class="diagram-node--external" x="780" y="12" width="130" height="48" rx="0" fill="none" stroke="rgba(155,185,187,0.24)" />
-              <text x="845" y="33" fill="#c2c8ce" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">Vendor</text>
-              <text x="845" y="48" fill="#747983" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">x402 settle</text>
-              <polyline points="70,60 70,76 325,76 325,87" fill="none" stroke="#9bb9bb" marker-end="url(#arrow)" />
-              <text x="198" y="70" fill="#7a9294" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle">set private policy</text>
-            </svg>
+    <section class="section" id="mechanism" aria-labelledby="mechanism-title" data-reveal>
+      <div class="wrap">
+        <header class="section-head">
+          <p class="section-numeral" aria-hidden="true">II</p>
+          <div class="section-titles">
+            <p class="section-label">Mechanism</p>
+            <h2 id="mechanism-title">How AgentVault works</h2>
           </div>
+        </header>
+        <div class="section-body mechanism-body">
           <ol class="flow">
-            <li>
+            <li class="flow-card">
+              <p class="flow-card-head"><span class="flow-actor">Owner</span></p>
               <h3>Owner funds the Vault</h3>
               <p>Deposit USDT0 into your own non-custodial <code>AgentVault</code> contract, which pays via <a
                   href="https://eips.ethereum.org/EIPS/eip-1271" rel="noopener noreferrer">EIP-1271</a> contract
                 signature verification.</p>
             </li>
-            <li>
+            <li class="flow-card">
+              <p class="flow-card-head"><span class="flow-actor">Owner</span></p>
               <h3>Owner sets four private rules</h3>
               <p>Maximum payment, rolling budget window, Vendor allowlist, and rate limit. The policy stays private to
                 the Owner and the registered machine.</p>
             </li>
-            <li>
+            <li class="flow-card">
+              <p class="flow-card-head"><span class="flow-actor">Agent</span></p>
               <h3>Agent requests, never signs</h3>
               <p>The Agent uses a revocable Credential instead of a private key and sends an encrypted request through
                 the Owner-run Gateway. It never signs the payment itself.</p>
             </li>
-            <li>
+            <li class="flow-card flow-card--key">
+              <p class="flow-card-head"><span class="flow-actor">FCC machine</span></p>
               <h3>FCC evaluates privately</h3>
               <p>A registered <a href="https://dev.flare.network/fcc/overview" rel="noopener noreferrer">Flare
                   Confidential Compute</a> machine checks the request against the policy. If it passes, the machine signs
                 a standard x402 payment authorization using <a href="https://eips.ethereum.org/EIPS/eip-3009"
                   rel="noopener noreferrer">EIP-3009</a>.</p>
             </li>
-            <li>
+            <li class="flow-card">
+              <p class="flow-card-head"><span class="flow-actor">Vault</span></p>
               <h3>Vault verifies, then x402 settles</h3>
               <p>The Vault pays as an EIP-1271 contract signer after independently verifying the registered machine and
                 the payment terms on-chain.</p>
             </li>
           </ol>
+          <div class="flow-diagram flow-diagram--wide" role="img" aria-label="The Owner funds the Vault and sets the private policy on the FCC machine. The Agent sends an encrypted Credential request into the AgentVault system, where the FCC machine checks four private rules and signs x402 with EIP-3009. The Vault independently verifies with EIP-1271 and pays the Vendor through x402 settlement.">
+            <svg id="mechanism-diagram" viewBox="0 0 920 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <path class="diagram-arrowhead" d="M0,0 L6,3 L0,6 Z" />
+                </marker>
+              </defs>
+              <rect class="diagram-boundary" x="220" y="2" width="510" height="146" rx="0" stroke-dasharray="5 4" />
+              <rect class="diagram-knockout" x="232" y="0" width="82" height="15" />
+              <text class="diagram-boundary-label" x="242" y="11" font-size="9">AgentVault</text>
+              <rect class="diagram-node--external" x="10" y="12" width="120" height="48" rx="0" />
+              <text class="diagram-name" x="70" y="33" font-size="11" text-anchor="middle">Owner</text>
+              <text class="diagram-sub" x="70" y="48" font-size="9" text-anchor="middle">Owner funds</text>
+              <line class="diagram-arrow" x1="130" y1="36" x2="545" y2="36" marker-end="url(#arrow)" />
+              <text class="diagram-edge-label" x="337" y="27" font-size="8" text-anchor="middle">fund</text>
+              <rect class="diagram-node--internal" x="550" y="12" width="150" height="48" rx="0" />
+              <rect x="553" y="15" width="144" height="42" />
+              <text class="diagram-name" x="625" y="33" font-size="11" text-anchor="middle">Vault</text>
+              <text class="diagram-sub" x="625" y="48" font-size="9" text-anchor="middle">EIP-1271 verify + pay</text>
+              <rect class="diagram-node--external" x="10" y="92" width="130" height="48" rx="0" />
+              <text class="diagram-name" x="75" y="113" font-size="11" text-anchor="middle">Agent</text>
+              <text class="diagram-sub" x="75" y="128" font-size="9" text-anchor="middle">Credential</text>
+              <line class="diagram-arrow" x1="140" y1="116" x2="245" y2="116" marker-end="url(#arrow)" />
+              <text class="diagram-edge-label" x="192" y="107" font-size="8" text-anchor="middle">encrypted request</text>
+              <rect class="diagram-node--internal" x="250" y="92" width="150" height="48" rx="0" />
+              <rect x="253" y="95" width="144" height="42" />
+              <text class="diagram-name" x="325" y="113" font-size="11" text-anchor="middle">FCC machine</text>
+              <text class="diagram-sub" x="325" y="128" font-size="9" text-anchor="middle">checks 4 private rules</text>
+              <polyline class="diagram-arrow" points="400,116 625,116 625,65" marker-end="url(#arrow)" />
+              <text class="diagram-edge-label" x="513" y="110" font-size="8" text-anchor="middle">signs x402 (EIP-3009)</text>
+              <line class="diagram-arrow" x1="700" y1="36" x2="775" y2="36" marker-end="url(#arrow)" />
+              <text class="diagram-edge-label" x="738" y="27" font-size="8" text-anchor="middle">settle</text>
+              <rect class="diagram-node--external" x="780" y="12" width="130" height="48" rx="0" />
+              <text class="diagram-name" x="845" y="33" font-size="11" text-anchor="middle">Vendor</text>
+              <text class="diagram-sub" x="845" y="48" font-size="9" text-anchor="middle">x402 settle</text>
+              <polyline class="diagram-arrow" points="70,60 70,76 325,76 325,87" marker-end="url(#arrow)" />
+              <text class="diagram-edge-label" x="198" y="70" font-size="8" text-anchor="middle">set private policy</text>
+            </svg>
+          </div>
+          <div class="flow-diagram flow-diagram--vertical" role="img" aria-label="The Owner funds the Vault and sets the private policy on the FCC machine. The Agent sends an encrypted Credential request into the AgentVault system, where the FCC machine checks four private rules and signs x402 with EIP-3009. The Vault independently verifies with EIP-1271 and pays the Vendor through x402 settlement.">
+            <svg id="mechanism-diagram-vertical" viewBox="0 0 342 450" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <marker id="arrow-v" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <path class="diagram-v-arrowhead" d="M0,0 L6,3 L0,6 Z" />
+                </marker>
+              </defs>
+              <rect class="diagram-v-boundary" x="4" y="96" width="334" height="244" stroke-dasharray="5 4" />
+              <rect class="diagram-v-knockout" x="14" y="89" width="96" height="15" />
+              <text class="diagram-v-boundary-label" x="20" y="100" font-size="10">AgentVault</text>
+              <rect class="diagram-v-node--external" x="8" y="8" width="140" height="52" />
+              <text class="diagram-v-name" x="78" y="32" font-size="15" text-anchor="middle">Owner</text>
+              <text class="diagram-v-sub" x="78" y="47" font-size="8.5" text-anchor="middle">Owner funds</text>
+              <rect class="diagram-v-node--external" x="194" y="8" width="140" height="52" />
+              <text class="diagram-v-name" x="264" y="32" font-size="15" text-anchor="middle">Agent</text>
+              <text class="diagram-v-sub" x="264" y="47" font-size="8.5" text-anchor="middle">Credential</text>
+              <rect class="diagram-v-node--internal" x="96" y="130" width="150" height="56" />
+              <rect class="diagram-v-inset" x="99" y="133" width="144" height="50" />
+              <text class="diagram-v-name" x="171" y="156" font-size="15" text-anchor="middle">FCC machine</text>
+              <text class="diagram-v-sub" x="171" y="171" font-size="8.5" text-anchor="middle">checks 4 private rules</text>
+              <rect class="diagram-v-node--internal" x="96" y="262" width="150" height="56" />
+              <rect class="diagram-v-inset" x="99" y="265" width="144" height="50" />
+              <text class="diagram-v-name" x="171" y="288" font-size="15" text-anchor="middle">Vault</text>
+              <text class="diagram-v-sub" x="171" y="303" font-size="8.5" text-anchor="middle">EIP-1271 verify + pay</text>
+              <rect class="diagram-v-node--external" x="96" y="388" width="150" height="52" />
+              <text class="diagram-v-name" x="171" y="412" font-size="15" text-anchor="middle">Vendor</text>
+              <text class="diagram-v-sub" x="171" y="427" font-size="8.5" text-anchor="middle">x402 settle</text>
+              <path class="diagram-v-arrow" d="M110,60 L110,124" marker-end="url(#arrow-v)" />
+              <text class="diagram-v-edge-label" x="116" y="80" font-size="8">set private policy</text>
+              <path class="diagram-v-arrow" d="M232,60 L232,124" marker-end="url(#arrow-v)" />
+              <text class="diagram-v-edge-label" x="226" y="104" font-size="8" text-anchor="end">encrypted request</text>
+              <path class="diagram-v-arrow" d="M24,60 L24,290 L90,290" marker-end="url(#arrow-v)" />
+              <text class="diagram-v-edge-label" x="30" y="210" font-size="8">fund</text>
+              <path class="diagram-v-arrow" d="M171,186 L171,256" marker-end="url(#arrow-v)" />
+              <text class="diagram-v-edge-label" x="178" y="226" font-size="8">signs x402 (EIP-3009)</text>
+              <path class="diagram-v-arrow" d="M171,318 L171,382" marker-end="url(#arrow-v)" />
+              <text class="diagram-v-edge-label" x="178" y="356" font-size="8">settle</text>
+            </svg>
+          </div>
+          <div class="coin-lane">
+            <div class="coin-lane-status">
+              <p class="label coin-phase coin-phase--a">A payment, in motion · Approved</p>
+              <p class="label coin-phase coin-phase--b">A payment, in motion · Declined</p>
+            </div>
+            <div class="coin-track">
+              <div class="coin-rail"></div>
+              <div class="coin-checkpoint"></div>
+              <div class="coin-mover">
+                <div class="ascii" data-ascii="coin" aria-hidden="true" style="--cols: 120; --rows: 66;">
+                  <pre class="ascii-layer ascii-layer--dg"></pre>
+                  <pre class="ascii-layer ascii-layer--lo"></pre>
+                  <pre class="ascii-layer ascii-layer--hi"></pre>
+                </div>
+              </div>
+              <div class="tesserae" aria-hidden="true">
+                <div class="tessera tessera--pass"><span class="tessera-ring"></span><span class="tessera-tag"><span class="tessera-word">SPECTAVIT</span><span class="tessera-sub">FCC · VERIFIED</span></span></div>
+                <div class="tessera tessera--fail"><span class="tessera-ring"></span><span class="tessera-tag"><span class="tessera-word">DECLINED</span><span class="tessera-sub">reason stays private</span></span></div>
+              </div>
+              <p class="label coin-stop coin-stop--vault">Vault</p>
+              <p class="label coin-stop coin-stop--check">FCC checkpoint</p>
+              <p class="label coin-stop coin-stop--vendor">Vendor</p>
+            </div>
+            <div class="coin-lane-result">
+              <p class="coin-phase coin-phase--a coin-result--pass">→ PAID</p>
+              <p class="coin-phase coin-phase--b coin-result--fail">← DECLINED · the funds stay in the Vault</p>
+            </div>
+          </div>
+          <div class="plate plate--end">
+            <p class="plate-name">TESSERA NUMMVLARIA</p>
+            <p class="plate-place">Inspector’s tag, bone</p>
+            <p class="plate-text">Tied to a sealed bag of coin and marked SPECTAVIT: this has been examined.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="section" id="rules" aria-labelledby="rules-title" data-reveal>
-      <div class="wrap archive">
-        <p class="archive-index">03 / Rules</p>
-        <div class="archive-body">
-          <div class="section-head">
-            <p class="section-sub">Private policy in action</p>
+      <div class="wrap">
+        <header class="section-head">
+          <p class="section-numeral" aria-hidden="true">III</p>
+          <div class="section-titles">
+            <p class="section-label">Rules <span class="label-sep" aria-hidden="true">·</span> Private policy in action</p>
             <h2 id="rules-title">The rules behind every payment</h2>
           </div>
-          <p class="rule-hint">Hover or tap a card to switch from the Agent's view to the Owner's.</p>
-          <div class="rule-grid">
-            <article class="rule-card">
-              <div class="rule-inner">
-                <div class="rule-face rule-face--agent">
-                  <p class="rule-tag">Rule 01</p>
+          <p class="section-aside">Choose a rule to see what the Agent was told and what the Owner reads.</p>
+        </header>
+        <div class="section-body rules-body">
+          <div class="rule-tabs" role="tablist" aria-label="Rules">
+            <button class="rule-tab" type="button" role="tab" id="rule-tab-1" aria-controls="rule-panel-1" aria-selected="false" tabindex="-1"><span class="rule-tab-num">Rule 01</span><span class="rule-tab-name">Vendor allowlist</span></button>
+            <button class="rule-tab" type="button" role="tab" id="rule-tab-2" aria-controls="rule-panel-2" aria-selected="true" tabindex="0"><span class="rule-tab-num">Rule 02</span><span class="rule-tab-name">Rolling budget window</span></button>
+            <button class="rule-tab" type="button" role="tab" id="rule-tab-3" aria-controls="rule-panel-3" aria-selected="false" tabindex="-1"><span class="rule-tab-num">Rule 03</span><span class="rule-tab-name">Maximum payment</span></button>
+            <button class="rule-tab" type="button" role="tab" id="rule-tab-4" aria-controls="rule-panel-4" aria-selected="false" tabindex="-1"><span class="rule-tab-num">Rule 04</span><span class="rule-tab-name">Rate limit</span></button>
+          </div>
+          <div class="rule-panel" role="tabpanel" id="rule-panel-1" aria-labelledby="rule-tab-1" hidden>
+            <div class="diptych">
+              <article class="leaf leaf--agent">
+                <div class="leaf-inner">
+                  <p class="leaf-head"><span class="rule-tag">Rule 01</span><span class="leaf-view">Agent view</span></p>
                   <h3>Vendor allowlist</h3>
                   <p class="rule-prompt">Task: <em>“Pay a data provider that isn't on the Owner's approved list.”</em></p>
-                  <p class="rule-agent"><span class="rule-label">Agent</span> DECLINED</p>
-                  <button class="rule-turn" type="button" aria-expanded="false">Owner view</button>
-                </div>
-                <div class="rule-face rule-face--owner">
-                  <p class="rule-tag rule-tag--owner">Rule 01</p>
-                  <h3>Vendor allowlist</h3>
-                  <div class="rule-owner">
-                    <p class="rule-monitor-status"><span class="rule-label">Owner</span> DECLINED</p>
-                    <p class="rule-owner-reason">The payment was declined because this data provider is not on the Owner's approved vendor allowlist.</p>
+                  <div class="leaf-foot">
+                    <p class="rule-agent"><span class="rule-label">Agent</span> DECLINED</p>
+                    <p class="leaf-caption">what the Agent is told</p>
                   </div>
-                  <button class="rule-turn" type="button" aria-expanded="true">Agent view</button>
                 </div>
-              </div>
-            </article>
-            <article class="rule-card">
-              <div class="rule-inner">
-                <div class="rule-face rule-face--agent">
-                  <p class="rule-tag">Rule 02</p>
+              </article>
+              <div class="diptych-hinge" aria-hidden="true"><span></span><span></span></div>
+              <article class="leaf leaf--owner">
+                <div class="leaf-inner">
+                  <p class="leaf-head"><span class="rule-tag">Rule 01</span><span class="leaf-view">Owner view</span></p>
+                  <h3>Vendor allowlist</h3>
+                  <p class="rule-owner-reason">The payment was declined because this data provider is not on the Owner's approved vendor allowlist.</p>
+                  <div class="leaf-foot">
+                    <p class="rule-monitor-status"><span class="rule-label">Owner</span> DECLINED</p>
+                    <p class="leaf-caption">what the Owner reads</p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="rule-panel" role="tabpanel" id="rule-panel-2" aria-labelledby="rule-tab-2">
+            <div class="diptych">
+              <article class="leaf leaf--agent">
+                <div class="leaf-inner">
+                  <p class="leaf-head"><span class="rule-tag">Rule 02</span><span class="leaf-view">Agent view</span></p>
                   <h3>Rolling budget window</h3>
                   <p class="rule-prompt">Task: <em>“Fetch the same feed four times in a row, $0.10 each.”</em></p>
-                  <p class="rule-agent"><span class="rule-label">Agent</span> 3× PAID, then DECLINED</p>
-                  <button class="rule-turn" type="button" aria-expanded="false">Owner view</button>
-                </div>
-                <div class="rule-face rule-face--owner">
-                  <p class="rule-tag rule-tag--owner">Rule 02</p>
-                  <h3>Rolling budget window</h3>
-                  <div class="rule-owner">
-                    <p class="rule-monitor-status"><span class="rule-label">Owner</span> 3× AUTHORIZED, then DECLINED</p>
-                    <p class="rule-owner-reason">The fourth $0.10 payment would push hourly spend to $0.40, above the $0.35 rolling budget.</p>
+                  <div class="leaf-foot">
+                    <p class="rule-agent"><span class="rule-label">Agent</span> 3× PAID, then DECLINED</p>
+                    <p class="leaf-caption">what the Agent is told</p>
                   </div>
-                  <button class="rule-turn" type="button" aria-expanded="true">Agent view</button>
                 </div>
-              </div>
-            </article>
-            <article class="rule-card">
-              <div class="rule-inner">
-                <div class="rule-face rule-face--agent">
-                  <p class="rule-tag">Rule 03</p>
+              </article>
+              <div class="diptych-hinge" aria-hidden="true"><span></span><span></span></div>
+              <article class="leaf leaf--owner">
+                <div class="leaf-inner">
+                  <p class="leaf-head"><span class="rule-tag">Rule 02</span><span class="leaf-view">Owner view</span></p>
+                  <h3>Rolling budget window</h3>
+                  <p class="rule-owner-reason">The fourth $0.10 payment would push hourly spend to $0.40, above the $0.35 rolling budget.</p>
+                  <div class="leaf-foot">
+                    <p class="rule-monitor-status"><span class="rule-label">Owner</span> 3× AUTHORIZED, then DECLINED</p>
+                    <p class="leaf-caption">what the Owner reads</p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="rule-panel" role="tabpanel" id="rule-panel-3" aria-labelledby="rule-tab-3" hidden>
+            <div class="diptych">
+              <article class="leaf leaf--agent">
+                <div class="leaf-inner">
+                  <p class="leaf-head"><span class="rule-tag">Rule 03</span><span class="leaf-view">Agent view</span></p>
                   <h3>Maximum payment</h3>
                   <p class="rule-prompt">Task: <em>“Buy a report priced at $0.50.”</em></p>
-                  <p class="rule-agent"><span class="rule-label">Agent</span> DECLINED</p>
-                  <button class="rule-turn" type="button" aria-expanded="false">Owner view</button>
-                </div>
-                <div class="rule-face rule-face--owner">
-                  <p class="rule-tag rule-tag--owner">Rule 03</p>
-                  <h3>Maximum payment</h3>
-                  <div class="rule-owner">
-                    <p class="rule-monitor-status"><span class="rule-label">Owner</span> DECLINED</p>
-                    <p class="rule-owner-reason">The $0.50 report was declined because it exceeds the $0.15 limit for any single payment.</p>
+                  <div class="leaf-foot">
+                    <p class="rule-agent"><span class="rule-label">Agent</span> DECLINED</p>
+                    <p class="leaf-caption">what the Agent is told</p>
                   </div>
-                  <button class="rule-turn" type="button" aria-expanded="true">Agent view</button>
                 </div>
-              </div>
-            </article>
-            <article class="rule-card">
-              <div class="rule-inner">
-                <div class="rule-face rule-face--agent">
-                  <p class="rule-tag">Rule 04</p>
+              </article>
+              <div class="diptych-hinge" aria-hidden="true"><span></span><span></span></div>
+              <article class="leaf leaf--owner">
+                <div class="leaf-inner">
+                  <p class="leaf-head"><span class="rule-tag">Rule 03</span><span class="leaf-view">Owner view</span></p>
+                  <h3>Maximum payment</h3>
+                  <p class="rule-owner-reason">The $0.50 report was declined because it exceeds the $0.15 limit for any single payment.</p>
+                  <div class="leaf-foot">
+                    <p class="rule-monitor-status"><span class="rule-label">Owner</span> DECLINED</p>
+                    <p class="leaf-caption">what the Owner reads</p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="rule-panel" role="tabpanel" id="rule-panel-4" aria-labelledby="rule-tab-4" hidden>
+            <div class="diptych">
+              <article class="leaf leaf--agent">
+                <div class="leaf-inner">
+                  <p class="leaf-head"><span class="rule-tag">Rule 04</span><span class="leaf-view">Agent view</span></p>
                   <h3>Rate limit</h3>
                   <p class="rule-prompt">Task: <em>“Fetch the feed five times in immediate succession, $0.10 each.”</em></p>
-                  <p class="rule-agent"><span class="rule-label">Agent</span> 4× PAID, then DECLINED</p>
-                  <button class="rule-turn" type="button" aria-expanded="false">Owner view</button>
-                </div>
-                <div class="rule-face rule-face--owner">
-                  <p class="rule-tag rule-tag--owner">Rule 04</p>
-                  <h3>Rate limit</h3>
-                  <div class="rule-owner">
-                    <p class="rule-monitor-status"><span class="rule-label">Owner</span> 4× AUTHORIZED, then DECLINED</p>
-                    <p class="rule-owner-reason">The fifth $0.10 payment was declined because the policy allows only four payments per hour.</p>
+                  <div class="leaf-foot">
+                    <p class="rule-agent"><span class="rule-label">Agent</span> 4× PAID, then DECLINED</p>
+                    <p class="leaf-caption">what the Agent is told</p>
                   </div>
-                  <button class="rule-turn" type="button" aria-expanded="true">Agent view</button>
                 </div>
-              </div>
-            </article>
+              </article>
+              <div class="diptych-hinge" aria-hidden="true"><span></span><span></span></div>
+              <article class="leaf leaf--owner">
+                <div class="leaf-inner">
+                  <p class="leaf-head"><span class="rule-tag">Rule 04</span><span class="leaf-view">Owner view</span></p>
+                  <h3>Rate limit</h3>
+                  <p class="rule-owner-reason">The fifth $0.10 payment was declined because the policy allows only four payments per hour.</p>
+                  <div class="leaf-foot">
+                    <p class="rule-monitor-status"><span class="rule-label">Owner</span> 4× AUTHORIZED, then DECLINED</p>
+                    <p class="leaf-caption">what the Owner reads</p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="plate plate--end">
+            <p class="plate-name">TABVLAE CERATAE</p>
+            <p class="plate-place">Wax-tablet diptych</p>
+            <p class="plate-text">Romans kept receipts on hinged wax tablets. Two leaves, one record.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section section-panel" id="demo-video" aria-labelledby="demo-video-title" data-reveal>
-      <div class="wrap archive">
-        <p class="archive-index">04 / Record</p>
-        <div class="archive-body">
-          <h2 id="demo-video-title">Watch the demo</h2>
-          <p class="demo-lead">
-            Follow the README from setup to proof. The Owner funds the Vault, sets a private payment policy, and starts
-            the Owner monitor; the Agent then makes real payment attempts against all four rules. Payments that fit the
-            policy go through. When one is declined, the Agent sees only the outcome while the Owner monitor verifies and
-            decrypts the private reason.
-          </p>
-          <a class="demo-panel" href="https://youtu.be/BUQQIvgCKFQ" rel="noopener noreferrer"
-            target="_blank">
-            <span class="demo-panel-strip" aria-hidden="true">AGENT_PAYMENT_LOOP_START PROVING_RULES_IN_TEE_ENVIRONMENT VERIFIED_BY_FLARE_NETWORK COSTON2_SETTLE_X402 AGENT_PAYMENT_LOOP_START PROVING_RULES_IN_TEE_ENVIRONMENT VERIFIED_BY_FLARE_NETWORK COSTON2_SETTLE_X402</span>
-            <span class="demo-panel-center">
-              <span class="demo-play" aria-hidden="true"></span>
-              <span class="demo-panel-label">Watch the demo on YouTube</span>
-            </span>
-          </a>
+    <section class="section" id="demo-video" aria-labelledby="demo-video-title" data-reveal>
+      <div class="wrap">
+        <header class="section-head">
+          <p class="section-numeral" aria-hidden="true">IV</p>
+          <div class="section-titles">
+            <p class="section-label">Record</p>
+            <h2 id="demo-video-title">Watch the demo</h2>
+          </div>
+        </header>
+      </div>
+      <div class="frieze" aria-hidden="true">
+        <div class="frieze-track"><div class="frieze-run"><span>AGENT_PAYMENT_LOOP_START</span><span>PROVING_RULES_IN_TEE_ENVIRONMENT</span><span>VERIFIED_BY_FLARE_NETWORK</span><span>COSTON2_SETTLE_X402</span><span>AGENT_PAYMENT_LOOP_START</span><span>PROVING_RULES_IN_TEE_ENVIRONMENT</span><span>VERIFIED_BY_FLARE_NETWORK</span><span>COSTON2_SETTLE_X402</span></div><div class="frieze-run"><span>AGENT_PAYMENT_LOOP_START</span><span>PROVING_RULES_IN_TEE_ENVIRONMENT</span><span>VERIFIED_BY_FLARE_NETWORK</span><span>COSTON2_SETTLE_X402</span><span>AGENT_PAYMENT_LOOP_START</span><span>PROVING_RULES_IN_TEE_ENVIRONMENT</span><span>VERIFIED_BY_FLARE_NETWORK</span><span>COSTON2_SETTLE_X402</span></div></div>
+      </div>
+      <div class="wrap record-body">
+        <a class="demo-panel" href="https://youtu.be/BUQQIvgCKFQ" rel="noopener noreferrer" target="_blank">
+          <span class="demo-panel-inner">
+            <span class="demo-play" aria-hidden="true"><svg width="22" height="24" viewBox="0 0 22 24" focusable="false"><path d="M3 2 L20 12 L3 22 Z" /></svg></span>
+            <span class="demo-panel-label">Watch the demo on YouTube</span>
+          </span>
+        </a>
+        <div class="record-text">
+            <p class="demo-lead">
+              Follow the README from setup to proof. The Owner funds the Vault, sets a private payment policy, and starts
+              the Owner monitor; the Agent then makes real payment attempts against all four rules. Payments that fit the
+              policy go through. When one is declined, the Agent sees only the outcome while the Owner monitor verifies and
+              decrypts the private reason.
+            </p>
+          <div class="plate">
+            <p class="plate-name">INSCRIPTIO</p>
+            <p class="plate-place">The public record</p>
+            <p class="plate-text">What settles is carved where anyone can read it. Why it was refused is not.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="section" id="get-started" aria-labelledby="get-started-title" data-reveal>
-      <div class="wrap archive">
-        <p class="archive-index">05 / Run</p>
-        <div class="archive-body">
-          <div class="section-head">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="section-numeral" aria-hidden="true">V</p>
+          <div class="section-titles">
+            <p class="section-label">Run</p>
             <h2 id="get-started-title">Self-host AgentVault</h2>
           </div>
-          <div class="get-started-intro">
-            <p>
-              Run AgentVault to see the boundary work in your own environment: an Agent can make approved purchases
-              without receiving a private key, while you keep the policy and can stop spending or withdraw funds.
-            </p>
-            <p>
-              The walkthrough deploys your instance, then drives four policy rules against standard x402 endpoints. The
-              Agent sees only whether a payment went through; the Owner monitor verifies the result and shows the
-              private reason for a decline. Together, the successful payments and stopped requests show the settlement
-              path and policy checks working end to end.
-            </p>
-          </div>
-          <section class="prerequisites" aria-labelledby="prerequisites-title">
-            <div class="prerequisites-heading">
+        </header>
+        <div class="section-body run-body">
+          <div class="run-intro-grid">
+            <div class="get-started-intro">
+              <p>
+                Run AgentVault to see the boundary work in your own environment: an Agent can make approved purchases
+                without receiving a private key, while you keep the policy and can stop spending or withdraw funds.
+              </p>
+              <p>
+                The walkthrough deploys your instance, then drives four policy rules against standard x402 endpoints. The
+                Agent sees only whether a payment went through; the Owner monitor verifies the result and shows the
+                private reason for a decline. Together, the successful payments and stopped requests show the settlement
+                path and policy checks working end to end.
+              </p>
+            </div>
+            <section class="prerequisites" aria-labelledby="prerequisites-title">
               <h3 id="prerequisites-title">Prerequisites</h3>
+              <div class="prerequisites-body">
+                <p>Install these before cloning AgentVault.</p>
+                <ul class="prerequisites-list">
+                  <li>Docker</li>
+                  <li>Go 1.25.1+</li>
+                  <li>Foundry 1.3.2+</li>
+                  <li>Node.js 22+</li>
+                  <li>Git</li>
+                  <li>curl</li>
+                  <li>jq</li>
+                  <li>ngrok</li>
+                  <li>Codex or Claude</li>
+                </ul>
+                <p>Have a Coston2 wallet funded with C2FLR for gas. <a href="https://faucet.flare.network/coston2" rel="noopener noreferrer">Get C2FLR from the Coston2 faucet.</a></p>
+              </div>
+            </section>
+          </div>
+          <div class="stairs-wrap">
+            <ol class="stairs" aria-hidden="true">
+              <li class="stair" style="--i: 0;"><span class="stair-num">I.</span> <span class="stair-title">Clone and install</span></li>
+              <li class="stair" style="--i: 1;"><span class="stair-num">II.</span> <span class="stair-title">Configure Coston2</span></li>
+              <li class="stair" style="--i: 2;"><span class="stair-num">III.</span> <span class="stair-title">Run preflight</span></li>
+              <li class="stair" style="--i: 3;"><span class="stair-num">IV.</span> <span class="stair-title">Stand up your instance</span></li>
+              <li class="stair" style="--i: 4;"><span class="stair-num">V.</span> <span class="stair-title">Fund your Vault</span></li>
+              <li class="stair" style="--i: 5;"><span class="stair-num">VI.</span> <span class="stair-title">Mint a Credential</span></li>
+              <li class="stair" style="--i: 6;"><span class="stair-num">VII.</span> <span class="stair-title">Set your private policy</span></li>
+              <li class="stair" style="--i: 7;"><span class="stair-num">VIII.</span> <span class="stair-title">Start the Owner view</span></li>
+              <li class="stair" style="--i: 8;"><span class="stair-num">IX.</span> <span class="stair-title">Start your Agent</span></li>
+            </ol>
+            <div class="plate">
+              <p class="plate-name">GRADVS</p>
+              <p class="plate-place">The podium steps</p>
+              <p class="plate-text">Nine steps up to your own treasury.</p>
             </div>
-            <div class="prerequisites-body">
-              <p>Install these before cloning AgentVault.</p>
-              <ul class="prerequisites-list">
-                <li>Docker</li>
-                <li>Go 1.25.1+</li>
-                <li>Foundry 1.3.2+</li>
-                <li>Node.js 22+</li>
-                <li>Git</li>
-                <li>curl</li>
-                <li>jq</li>
-                <li>ngrok</li>
-                <li>Codex or Claude</li>
-              </ul>
-              <p>Have a Coston2 wallet funded with C2FLR for gas. <a href="https://faucet.flare.network/coston2" rel="noopener noreferrer">Get C2FLR from the Coston2 faucet.</a></p>
-            </div>
-          </section>
+          </div>
           <section class="run-subsection" aria-labelledby="setup-title">
             <div class="run-subsection-head">
               <h3 id="setup-title">Setup</h3>
@@ -567,7 +718,7 @@
             </ol>
           </section>
           <div class="get-started-links">
-            <a class="btn btn-primary" href="https://github.com/vasqq/agent-vault#quickstart" rel="noopener noreferrer">Full README quickstart</a>
+            <a class="btn btn-secondary" href="https://github.com/vasqq/agent-vault#quickstart" rel="noopener noreferrer">Full README quickstart</a>
             <a class="btn btn-secondary" href="https://github.com/vasqq/agent-vault" rel="noopener noreferrer">View source on GitHub</a>
           </div>
         </div>
@@ -575,10 +726,15 @@
     </section>
 
     <section class="section" id="built" aria-labelledby="built-title" data-reveal>
-      <div class="wrap archive">
-        <p class="archive-index">06 / Delta</p>
-        <div class="archive-body">
-          <h2 id="built-title">Built during Flare Summer Signal</h2>
+      <div class="wrap">
+        <header class="section-head">
+          <p class="section-numeral" aria-hidden="true">VI</p>
+          <div class="section-titles">
+            <p class="section-label">Delta</p>
+            <h2 id="built-title">Built during Flare Summer Signal</h2>
+          </div>
+        </header>
+        <div class="section-body">
           <ul class="built-list">
             <li>The Owner keeps the funds in an AgentVault contract, sets a private policy, and can pause spending or withdraw funds at any time.</li>
             <li>The Agent gets a Credential instead of a payment-signing key. It can request a payment but cannot sign or send a transaction, and learns only whether the request succeeded or was declined.</li>
@@ -589,14 +745,19 @@
       </div>
     </section>
 
-    <section class="section section-panel" id="roadmap" aria-labelledby="roadmap-title" data-reveal>
-      <div class="wrap archive">
-        <p class="archive-index">07 / Roadmap</p>
-        <div class="archive-body">
-          <h2 id="roadmap-title">What's next</h2>
-          <p class="roadmap-lead">
+    <section class="section" id="roadmap" aria-labelledby="roadmap-title" data-reveal>
+      <div class="wrap">
+        <header class="section-head">
+          <p class="section-numeral" aria-hidden="true">VII</p>
+          <div class="section-titles">
+            <p class="section-label">Roadmap</p>
+            <h2 id="roadmap-title">What's next</h2>
+          </div>
+          <p class="section-aside">
             AgentVault is self-hosted today. Next comes a hosted option and a small fee on approved payments.
           </p>
+        </header>
+        <div class="section-body roadmap-body">
           <ol class="roadmap-track">
             <li class="roadmap-node roadmap-node--next">
               <p class="roadmap-stage">01 / Hosting</p>
@@ -616,21 +777,40 @@
               </p>
             </li>
           </ol>
+          <div class="roadmap-base" aria-hidden="true"></div>
+          <div class="plate plate--end">
+            <p class="plate-name">MILIARIVM</p>
+            <p class="plate-place">Roman milestone</p>
+            <p class="plate-text">Stone markers counted the miles along every Roman road.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="section section-close" aria-labelledby="close-title" data-reveal>
-      <div class="wrap">
-        <div class="close-inner">
-          <h2 id="close-title">Autonomy for the agent. Control for the Owner.</h2>
-          <div class="close-actions">
-            <a class="btn btn-primary" href="#get-started">Self-host AgentVault</a>
-            <a class="btn btn-secondary" href="https://youtu.be/BUQQIvgCKFQ"
-              rel="noopener noreferrer" target="_blank">Watch the demo</a>
+      <div class="wrap close-inner">
+        <h2 id="close-title">Autonomy for the agent. <em>Control for the Owner.</em></h2>
+        <div class="close-actions">
+          <a class="btn btn-primary" href="#get-started">Self-host AgentVault</a>
+          <a class="btn btn-secondary" href="https://youtu.be/BUQQIvgCKFQ"
+            rel="noopener noreferrer" target="_blank">Watch the demo</a>
+        </div>
+      </div>
+      <div class="close-art">
+        <div class="wrap close-plate-wrap">
+          <div class="plate">
+            <p class="plate-name">AERARIUM</p>
+            <p class="plate-place">Temple of Saturn, reconstructed</p>
+            <p class="plate-text">The whole treasury, standing on new ground.</p>
           </div>
-          <p class="close-meta">Built by <a href="https://x.com/itzbankotez" rel="noopener noreferrer">@itzbankotez</a> · <a href="https://github.com/vasqq/agent-vault"
-              rel="noopener noreferrer">github.com/vasqq/agent-vault</a></p>
+        </div>
+        <div class="close-figure" aria-hidden="true">
+          <div class="ascii" data-ascii="temple-wide" style="--cols: 330; --rows: 104;">
+            <pre class="ascii-layer ascii-layer--dg"></pre>
+            <pre class="ascii-layer ascii-layer--lo"></pre>
+            <pre class="ascii-layer ascii-layer--hi"></pre>
+          </div>
+          <div class="floaters" data-floaters="40" data-floaters-mobile="13" data-floaters-region="0 100 45 92"></div>
         </div>
       </div>
     </section>
@@ -638,8 +818,9 @@
 
   <footer class="site-footer">
     <div class="wrap footer-inner">
-      <span>AgentVault · Flare Confidential Compute Track</span>
-      <a href="https://github.com/vasqq/agent-vault" rel="noopener noreferrer">GitHub</a>
+      <p>Built by <a href="https://x.com/itzbanknotez" rel="noopener noreferrer">@itzbanknotez</a> · <a href="https://github.com/vasqq/agent-vault"
+          rel="noopener noreferrer">github.com/vasqq/agent-vault</a></p>
+      <p><span>AgentVault · Flare Confidential Compute Track</span> · <a href="https://github.com/vasqq/agent-vault" rel="noopener noreferrer">GitHub</a></p>
     </div>
   </footer>
 

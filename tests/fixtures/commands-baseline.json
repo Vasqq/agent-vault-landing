@@ -1,0 +1,21 @@
+[
+  "git clone --recurse-submodules https://github.com/vasqq/agent-vault.git &&\n  cd agent-vault &&\n  source ./scripts/setup.sh",
+  "./scripts/use-chain.sh coston2 go",
+  "agentvault up --check --mcp-client codex",
+  "agentvault up --check --mcp-client claude",
+  "agentvault up --mcp-client codex",
+  "agentvault up --mcp-client claude",
+  "agentvault fund 1.00",
+  "agentvault credential mint",
+  "agentvault policy set \\\n  --max 0.15 \\\n  --budget 0.35 \\\n  --seconds 3600 \\\n  --rate 4 \\\n  --vendor 0x2222222222222222222222222222222222222222 \\\n  --credential-digest '<paste the Policy digest value here>'",
+  "./scripts/agentvault-vendors.sh --wait-ready",
+  "agentvault monitor",
+  "agentvault agent start --client codex",
+  "agentvault agent start --client claude",
+  "A data provider is available at http://localhost:3403/api/premium-data. Fetch today's snapshot from it and summarize what's there. Use AgentVault to discover the public payment terms for this exact URL. I authorize AgentVault to make the one payment this task requests at that discovered public price and to that discovered public payee.",
+  "Check the data feed at http://localhost:3402/api/premium-data. Make four fetch attempts to this exact URL, one after another. Complete all four attempts even if the data does not change, then tell me what changed between the successful snapshots and whether any attempt failed. Use AgentVault to discover the public payment terms for this exact URL. I authorize AgentVault to make every payment this task requests at that discovered public price and to that discovered public payee, including all repeated payments.",
+  "agentvault policy set \\\n  --max 0.15 \\\n  --budget 0.50 \\\n  --seconds 3600 \\\n  --rate 4 \\\n  --vendor 0x2222222222222222222222222222222222222222 \\\n  --credential-digest '<paste the Policy digest value here>'",
+  "agentvault monitor",
+  "Fetch and summarize the report at http://localhost:3402/api/report. Use AgentVault to discover the public payment terms for this exact URL. I authorize AgentVault to make the one payment this task requests at that discovered public price and to that discovered public payee.",
+  "Pull the data feed at http://localhost:3402/api/premium-data. Make five fetch attempts to this exact URL in immediate succession, with no pause between them. Complete all five attempts even if the data does not change, then tell me what changed between the successful pulls and whether any attempt failed. Use AgentVault to discover the public payment terms for this exact URL. I authorize AgentVault to make every payment this task requests at that discovered public price and to that discovered public payee, including all repeated payments."
+]

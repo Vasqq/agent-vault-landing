@@ -1,5 +1,7 @@
 # AgentVault Landing — Design Plan
 
+> **Visual sections superseded.** The token system, type, aesthetic and motion described below were replaced by the Aerarium revamp. See [`docs/revamp/REVAMP_SPEC.md`](revamp/REVAMP_SPEC.md) (path: `docs/revamp/REVAMP_SPEC.md`). Content, structure and claims guidance here still apply.
+
 ## Design read
 Hackathon landing overhaul for Flare judges. Cyber-noir ASCII brutalism with Swiss editorial type. Native CSS. AgentVault teal as CRT glow on a black void.
 
